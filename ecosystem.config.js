@@ -6,7 +6,7 @@ module.exports = {
       script: "index.js",
       env: {
         NODE_ENV: "production",
-        PORT: 3001,
+        PORT: 4000,
         BASE_URL: "https://bridgestoabrighterfuture.org",
       },
     },
@@ -14,7 +14,7 @@ module.exports = {
       name: "nonton-frontend",
       cwd: "./frontend",
       script: "node_modules/.bin/next",
-      args: "start -p 3000",
+      args: "start -p 4001",
       env: {
         NODE_ENV: "production",
         NEXT_PUBLIC_API_URL: "https://api-movie.balee.web.id",
