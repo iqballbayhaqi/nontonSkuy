@@ -1,4 +1,4 @@
-import { api, buildAdvancedPath } from "@/lib/api";
+import { api } from "@/lib/api";
 import AdvancedSearchFilters from "@/components/AdvancedSearchFilters";
 import InfiniteMovieGrid from "@/components/InfiniteMovieGrid";
 
