@@ -8,3 +8,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# Android
+android-tv/.gradle/
+android-tv/local.properties
+android-tv/app/build/
+android-tv/build/
