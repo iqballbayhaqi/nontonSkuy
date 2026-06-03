@@ -1,0 +1,2 @@
+-keep class com.nontonskuy.tv.** { *; }
+-keepattributes JavascriptInterface

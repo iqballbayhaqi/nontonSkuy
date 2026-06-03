@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#060d17" />
+        </shape>
+    </item>
+    <!-- Blue accent bar kiri -->
+    <item android:width="8dp" android:gravity="left">
+        <shape android:shape="rectangle">
+            <solid android:color="#3b82f6" />
+        </shape>
+    </item>
+    <!-- Text "nonton" (blue) + "Skuy" (white) digambar via text drawable tidak bisa di XML,
+         jadi kita pakai solid block sebagai placeholder — ganti dengan PNG asli di Android Studio -->
+</layer-list>
