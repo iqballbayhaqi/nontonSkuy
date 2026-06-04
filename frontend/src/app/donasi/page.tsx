@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const SAWERIA_URL = "https://saweria.co/Baleeeee";
-const SAWERIA_QR  = "https://saweria.co/widgets/qr?streamKey=e01ce7f561711ff0c68927f6ebbf4546";
+const SAWERIA_QR  = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent("https://saweria.co/Baleeeee")}&size=200x200&margin=10&color=060d17&bgcolor=ffffff`;
 
 export default function DonasiPage() {
   return (
@@ -42,13 +42,14 @@ export default function DonasiPage() {
         </div>
 
         {/* QR Code */}
-        <div className="rounded-xl overflow-hidden" style={{ width: 200, height: 200 }}>
-          <iframe
+        <div className="rounded-xl overflow-hidden p-3" style={{ background: "#fff" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={SAWERIA_QR}
+            alt="QR Code Saweria"
             width={200}
             height={200}
-            style={{ border: "none", display: "block" }}
-            title="QR Code Saweria"
+            className="block"
           />
         </div>
 

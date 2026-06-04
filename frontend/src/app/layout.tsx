@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={inter.variable}>
       <head>
-        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="apple-touch-icon" href="/icon-192.svg" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="min-h-screen" style={{ background: "#060d17", fontFamily: "var(--font-inter), 'Helvetica Neue', Arial, sans-serif" }}>
