@@ -42,17 +42,13 @@ export default function DonasiPage() {
         </div>
 
         {/* QR Code */}
-        <div
-          className="rounded-xl overflow-hidden p-3"
-          style={{ background: "#fff" }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="rounded-xl overflow-hidden" style={{ width: 200, height: 200 }}>
+          <iframe
             src={SAWERIA_QR}
-            alt="QR Code Saweria"
-            width={180}
-            height={180}
-            className="block"
+            width={200}
+            height={200}
+            style={{ border: "none", display: "block" }}
+            title="QR Code Saweria"
           />
         </div>
 
