@@ -314,6 +314,14 @@ export default function Navbar() {
           >
             {NAV_18.label}
           </Link>
+          <Link
+            href="/donasi"
+            onClick={() => setMenuOpen(false)}
+            className="px-3 py-2 text-sm font-semibold rounded hover:opacity-80 transition-opacity flex items-center gap-2 w-fit"
+            style={{ background: "rgba(236,72,153,0.15)", color: "#f472b6", border: "1px solid rgba(236,72,153,0.3)" }}
+          >
+            ❤️ Dukung Pengembang
+          </Link>
           <div className="mt-1 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
             <p className="px-3 text-xs text-slate-500 mb-1 uppercase tracking-wider">Genre</p>
             <div className="grid grid-cols-2 gap-1">

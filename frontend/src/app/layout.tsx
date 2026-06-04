@@ -34,8 +34,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <PipProvider>
           <Navbar />
           <main>{children}</main>
-          <footer className="text-center py-8 text-xs text-slate-600 mt-16">
-            © 2025 nontonSkuy. For educational purposes only.
+          <footer className="text-center py-8 text-xs text-slate-700 mt-16 flex flex-col items-center gap-2">
+            <a
+              href="/donasi"
+              className="flex items-center gap-1.5 text-pink-700 hover:text-pink-500 transition-colors font-medium"
+            >
+              ❤️ Dukung pengembang
+            </a>
+            <span>© 2025 nontonSkuy. For educational purposes only.</span>
           </footer>
           <MiniPlayer />
         </PipProvider>
