@@ -4,6 +4,8 @@ import { Star, Clock, Globe, Calendar, Play } from "lucide-react";
 import { api } from "@/lib/api";
 import VideoPlayer from "@/components/VideoPlayer";
 import MovieCard from "@/components/MovieCard";
+import WatchlistButton from "@/components/WatchlistButton";
+import HistoryRecorder from "@/components/HistoryRecorder";
 
 function getYouTubeId(url: string | null): string | null {
   if (!url) return null;
@@ -183,6 +185,28 @@ export default async function MoviePage({ params }: Props) {
             </div>
           </div>
         </div>
+
+        {/* Watchlist button + history recorder */}
+        <div className="mt-5 flex gap-3 flex-wrap">
+          <WatchlistButton
+            movie={{
+              slug,
+              title: movie.title,
+              poster: movie.poster,
+              rating: movie.rating ? String(movie.rating.score) : null,
+              meta: Object.entries(movie.meta).map(([, v]) => v).slice(0, 2).join(" · ") || null,
+            }}
+          />
+        </div>
+        <HistoryRecorder
+          movie={{
+            slug,
+            title: movie.title,
+            poster: movie.poster,
+            rating: movie.rating ? String(movie.rating.score) : null,
+            meta: Object.entries(movie.meta).map(([, v]) => v).slice(0, 2).join(" · ") || null,
+          }}
+        />
 
 
         {/* Video Player */}

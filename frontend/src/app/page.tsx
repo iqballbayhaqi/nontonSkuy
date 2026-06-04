@@ -1,6 +1,7 @@
 import { api } from "@/lib/api";
 import HeroSlider from "@/components/HeroSlider";
 import MovieRow from "@/components/MovieRow";
+import ContinueWatchingRow from "@/components/ContinueWatchingRow";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +38,7 @@ export default async function HomePage() {
     <div>
       <HeroSlider movies={sliderMovies} />
       <div className="mt-6">
+        <ContinueWatchingRow />
         <MovieRow title="Film Terbaru"   movies={latest.movies}    seeAllHref="/latest" />
         <MovieRow title="Rating Terbaik" movies={bestRating.movies} seeAllHref="/best-rating" />
 

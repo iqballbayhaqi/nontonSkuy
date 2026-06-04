@@ -2,7 +2,12 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Menu, X, Film } from "lucide-react";
+import { Search, Menu, X, Film, Bookmark, History, Clock } from "lucide-react";
+import {
+  getSearchHistory,
+  addToSearchHistory,
+  removeFromSearchHistory,
+} from "@/lib/storage";
 
 const NAV_LINKS = [
   { label: "Beranda", href: "/" },
@@ -19,7 +24,10 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 10);
@@ -28,15 +36,49 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (searchOpen) inputRef.current?.focus();
+    if (searchOpen) {
+      inputRef.current?.focus();
+      setSearchHistory(getSearchHistory());
+      setShowHistory(true);
+    } else {
+      setShowHistory(false);
+    }
   }, [searchOpen]);
+
+  // Tutup dropdown jika klik di luar
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (searchBoxRef.current && !searchBoxRef.current.contains(e.target as Node)) {
+        setShowHistory(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    if (!query.trim()) return;
-    router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+    const q = query.trim();
+    if (!q) return;
+    addToSearchHistory(q);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
     setSearchOpen(false);
+    setShowHistory(false);
     setQuery("");
+  }
+
+  function pickHistory(q: string) {
+    addToSearchHistory(q);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
+    setSearchOpen(false);
+    setShowHistory(false);
+    setQuery("");
+  }
+
+  function deleteHistory(q: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    removeFromSearchHistory(q);
+    setSearchHistory(getSearchHistory());
   }
 
   return (
@@ -70,6 +112,12 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          <Link href="/watchlist" className="p-2 text-slate-300 hover:text-white transition-colors" title="Watchlist">
+            <Bookmark size={18} />
+          </Link>
+          <Link href="/history" className="p-2 text-slate-300 hover:text-white transition-colors" title="Riwayat">
+            <History size={18} />
+          </Link>
           <Link
             href={NAV_18.href}
             className="px-2.5 py-1 text-xs font-extrabold rounded transition-opacity hover:opacity-80"
@@ -104,27 +152,59 @@ export default function Navbar() {
         {/* Search */}
         <div className="flex items-center gap-2">
           {searchOpen ? (
-            <form onSubmit={handleSearch} className="flex items-center gap-2">
-              <input
-                ref={inputRef}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Cari film..."
-                className="px-3 py-1.5 text-sm rounded-lg outline-none w-48 md:w-64"
-                style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(59,130,246,0.5)",
-                  color: "white",
-                }}
-              />
-              <button
-                type="button"
-                onClick={() => setSearchOpen(false)}
-                className="text-slate-400 hover:text-white"
-              >
-                <X size={18} />
-              </button>
-            </form>
+            <div ref={searchBoxRef} className="relative flex items-center gap-2">
+              <form onSubmit={handleSearch} className="flex items-center gap-2">
+                <input
+                  ref={inputRef}
+                  value={query}
+                  onChange={(e) => { setQuery(e.target.value); setShowHistory(true); }}
+                  onFocus={() => setShowHistory(true)}
+                  placeholder="Cari film..."
+                  className="px-3 py-1.5 text-sm rounded-lg outline-none w-48 md:w-64"
+                  style={{
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(59,130,246,0.5)",
+                    color: "white",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => { setSearchOpen(false); setShowHistory(false); }}
+                  className="text-slate-400 hover:text-white"
+                >
+                  <X size={18} />
+                </button>
+              </form>
+
+              {/* Dropdown riwayat pencarian */}
+              {showHistory && searchHistory.length > 0 && !query && (
+                <div
+                  className="absolute top-full left-0 mt-1 w-64 rounded-lg py-1 z-50"
+                  style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
+                >
+                  <p className="px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
+                    <Clock size={11} /> Pencarian terbaru
+                  </p>
+                  {searchHistory.map((q) => (
+                    <div
+                      key={q}
+                      onClick={() => pickHistory(q)}
+                      className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-blue-600/20 transition-colors"
+                    >
+                      <span className="text-sm text-slate-300 flex items-center gap-2">
+                        <Search size={12} className="text-slate-500" /> {q}
+                      </span>
+                      <button
+                        onClick={(e) => deleteHistory(q, e)}
+                        className="text-slate-600 hover:text-slate-300"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           ) : (
             <button
               onClick={() => setSearchOpen(true)}
@@ -160,6 +240,20 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          <Link
+            href="/watchlist"
+            onClick={() => setMenuOpen(false)}
+            className="px-3 py-2 text-sm text-slate-300 hover:text-white rounded hover:bg-white/5 transition-colors flex items-center gap-2"
+          >
+            <Bookmark size={15} /> Watchlist
+          </Link>
+          <Link
+            href="/history"
+            onClick={() => setMenuOpen(false)}
+            className="px-3 py-2 text-sm text-slate-300 hover:text-white rounded hover:bg-white/5 transition-colors flex items-center gap-2"
+          >
+            <History size={15} /> Riwayat Tontonan
+          </Link>
           <Link
             href={NAV_18.href}
             onClick={() => setMenuOpen(false)}
