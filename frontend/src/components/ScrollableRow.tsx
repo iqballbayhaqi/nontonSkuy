@@ -52,7 +52,7 @@ export default function ScrollableRow({ children, gap = 12 }: Props) {
       <div
         ref={ref}
         className="flex overflow-x-auto scrollbar-hide pb-2"
-        style={{ gap }}
+        style={{ gap, scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {children}
       </div>
