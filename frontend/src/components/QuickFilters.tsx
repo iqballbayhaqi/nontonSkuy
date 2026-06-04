@@ -43,7 +43,7 @@ const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent; bg?: 
   { label: "UK",        href: "/country/united-kingdom", Flag: GB, bg: "https://images.unsplash.com/photo-1569865867048-34cfce8d58fe?q=80&w=400&auto=format&fit=crop" },
   { label: "Prancis",   href: "/country/france",         Flag: FR, bg: "https://images.unsplash.com/photo-1549144511-f099e773c147?q=80&w=400&auto=format&fit=crop" },
   { label: "Thailand",  href: "/country/thailand",       Flag: TH, bg: "https://images.unsplash.com/photo-1582468546235-9bf31e5bc4a1?q=80&w=400&auto=format&fit=crop" },
-  { label: "Malaysia",  href: "/country/malaysia",       Flag: MY },
+  { label: "Malaysia",  href: "/country/malaysia",       Flag: MY, bg: "https://images.unsplash.com/photo-1597148543182-830ef7bbb904?q=80&w=400&auto=format&fit=crop" },
 ];
 
 export default function QuickFilters() {
