@@ -20,18 +20,18 @@ import MY from "country-flag-icons/react/3x2/MY";
 type FlagComponent = React.ComponentType<any>;
 
 const GENRE_FILTERS = [
-  { label: "Action",      href: "/genre/action",          icon: <Swords   size={32} />, from: "#7f1d1d", to: "#dc2626" },
-  { label: "Comedy",      href: "/genre/comedy",          icon: <Laugh    size={32} />, from: "#78350f", to: "#f59e0b" },
-  { label: "Horror",      href: "/genre/horror",          icon: <Skull    size={32} />, from: "#2e1065", to: "#7c3aed" },
-  { label: "Romance",     href: "/genre/romance",         icon: <Heart    size={32} />, from: "#831843", to: "#ec4899" },
-  { label: "Sci-Fi",      href: "/genre/science-fiction", icon: <Rocket   size={32} />, from: "#1e3a8a", to: "#3b82f6" },
-  { label: "Thriller",    href: "/genre/thriller",        icon: <Eye      size={32} />, from: "#0f172a", to: "#475569" },
-  { label: "Drama",       href: "/genre/drama",           icon: <Sunset   size={32} />, from: "#134e4a", to: "#0d9488" },
-  { label: "Fantasy",     href: "/genre/fantasy",         icon: <Sparkles size={32} />, from: "#4c1d95", to: "#8b5cf6" },
-  { label: "Crime",       href: "/genre/crime",           icon: <Search   size={32} />, from: "#7c2d12", to: "#f97316" },
-  { label: "Adventure",   href: "/genre/adventure",       icon: <Compass  size={32} />, from: "#14532d", to: "#22c55e" },
-  { label: "Documentary", href: "/genre/documentary",     icon: <BookOpen size={32} />, from: "#1c1917", to: "#78716c" },
-  { label: "Music",       href: "/genre/music",           icon: <Music    size={32} />, from: "#701a75", to: "#d946ef" },
+  { label: "Action",      href: "/genre/action",          icon: <Swords   size={28} />, from: "#7f1d1d", to: "#dc2626", bg: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=400&auto=format&fit=crop" },
+  { label: "Comedy",      href: "/genre/comedy",          icon: <Laugh    size={28} />, from: "#78350f", to: "#f59e0b", bg: "https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?q=80&w=400&auto=format&fit=crop" },
+  { label: "Horror",      href: "/genre/horror",          icon: <Skull    size={28} />, from: "#2e1065", to: "#7c3aed", bg: "https://images.unsplash.com/photo-1567263361507-83f755d9fa97?q=80&w=400&auto=format&fit=crop" },
+  { label: "Romance",     href: "/genre/romance",         icon: <Heart    size={28} />, from: "#831843", to: "#ec4899", bg: "https://images.unsplash.com/photo-1615966650071-855b15f29ad1?q=80&w=400&auto=format&fit=crop" },
+  { label: "Sci-Fi",      href: "/genre/science-fiction", icon: <Rocket   size={28} />, from: "#1e3a8a", to: "#3b82f6", bg: "https://images.unsplash.com/photo-1693495430456-25c0a37ec5dc?q=80&w=400&auto=format&fit=crop" },
+  { label: "Thriller",    href: "/genre/thriller",        icon: <Eye      size={28} />, from: "#0f172a", to: "#475569", bg: "https://images.unsplash.com/photo-1761972494954-79b100e02ebd?q=80&w=400&auto=format&fit=crop" },
+  { label: "Drama",       href: "/genre/drama",           icon: <Sunset   size={28} />, from: "#134e4a", to: "#0d9488", bg: "https://images.unsplash.com/photo-1559781732-eed3e087c660?q=80&w=400&auto=format&fit=crop" },
+  { label: "Fantasy",     href: "/genre/fantasy",         icon: <Sparkles size={28} />, from: "#4c1d95", to: "#8b5cf6", bg: "https://images.unsplash.com/photo-1524373050940-8f19e9b858a9?q=80&w=400&auto=format&fit=crop" },
+  { label: "Crime",       href: "/genre/crime",           icon: <Search   size={28} />, from: "#7c2d12", to: "#f97316", bg: "https://images.unsplash.com/photo-1712436144241-63d52ac193b7?q=80&w=400&auto=format&fit=crop" },
+  { label: "Adventure",   href: "/genre/adventure",       icon: <Compass  size={28} />, from: "#14532d", to: "#22c55e", bg: "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?q=80&w=400&auto=format&fit=crop" },
+  { label: "Documentary", href: "/genre/documentary",     icon: <BookOpen size={28} />, from: "#1c1917", to: "#78716c", bg: "https://images.unsplash.com/photo-1611784728558-6c7d9b409cdf?q=80&w=400&auto=format&fit=crop" },
+  { label: "Music",       href: "/genre/music",           icon: <Music    size={28} />, from: "#701a75", to: "#d946ef", bg: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=400&auto=format&fit=crop" },
 ];
 
 const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent; bg?: string }[] = [
@@ -62,26 +62,30 @@ export default function QuickFilters() {
               className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 w-[110px] md:w-[179px]"
               style={{ aspectRatio: "2/3" }}
             >
-              {/* Gradient background */}
+              {/* Background image */}
+              <img
+                src={f.bg}
+                alt={f.label}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              {/* Gradient color overlay sesuai genre */}
               <div
-                className="absolute inset-0"
-                style={{ background: `linear-gradient(135deg, ${f.from} 0%, ${f.to} 100%)` }}
+                className="absolute inset-0 opacity-70"
+                style={{ background: `linear-gradient(135deg, ${f.from}cc 0%, ${f.to}88 100%)` }}
               />
-              {/* Noise texture overlay */}
-              <div className="absolute inset-0 opacity-10"
-                style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")" }}
-              />
-              {/* Icon */}
+              {/* Bottom gradient untuk teks */}
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)" }} />
+              {/* Icon + Label */}
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-2">
-                <span className="text-white opacity-90 group-hover:scale-110 transition-transform duration-200">
+                <span className="text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-200">
                   {f.icon}
                 </span>
-                <span className="text-white text-xs font-semibold text-center leading-tight drop-shadow">
-                  {f.label}
-                </span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 px-2 py-2 text-center">
+                <span className="text-white text-xs font-bold drop-shadow">{f.label}</span>
               </div>
               {/* Shine on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200"
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-200"
                 style={{ background: "linear-gradient(135deg, white 0%, transparent 60%)" }}
               />
             </Link>
