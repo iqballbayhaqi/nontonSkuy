@@ -8,6 +8,29 @@ import {
   addToSearchHistory,
   removeFromSearchHistory,
 } from "@/lib/storage";
+import US from "country-flag-icons/react/3x2/US";
+import KR from "country-flag-icons/react/3x2/KR";
+import JP from "country-flag-icons/react/3x2/JP";
+import ID from "country-flag-icons/react/3x2/ID";
+import CN from "country-flag-icons/react/3x2/CN";
+import IN from "country-flag-icons/react/3x2/IN";
+import GB from "country-flag-icons/react/3x2/GB";
+import FR from "country-flag-icons/react/3x2/FR";
+import TH from "country-flag-icons/react/3x2/TH";
+import type { ComponentType, SVGProps } from "react";
+
+type FlagComp = ComponentType<SVGProps<SVGSVGElement>>;
+const NAV_COUNTRIES: { label: string; slug: string; Flag: FlagComp }[] = [
+  { label: "USA",       slug: "usa",            Flag: US },
+  { label: "Korea",     slug: "korea",          Flag: KR },
+  { label: "Jepang",    slug: "japan",          Flag: JP },
+  { label: "Indonesia", slug: "indonesia",      Flag: ID },
+  { label: "China",     slug: "china",          Flag: CN },
+  { label: "India",     slug: "india",          Flag: IN },
+  { label: "UK",        slug: "united-kingdom", Flag: GB },
+  { label: "Prancis",   slug: "france",         Flag: FR },
+  { label: "Thailand",  slug: "thailand",       Flag: TH },
+];
 
 const NAV_LINKS = [
   { label: "Beranda", href: "/" },
@@ -155,13 +178,10 @@ export default function Navbar() {
               className="absolute top-full left-0 mt-1 w-44 rounded-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
               style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
             >
-              {[
-                ["🇺🇸 USA", "usa"], ["🇰🇷 Korea", "korea"], ["🇯🇵 Jepang", "japan"],
-                ["🇮🇩 Indonesia", "indonesia"], ["🇨🇳 China", "china"], ["🇮🇳 India", "india"],
-                ["🇬🇧 UK", "united-kingdom"], ["🇫🇷 Prancis", "france"], ["🇹🇭 Thailand", "thailand"],
-              ].map(([label, val]) => (
-                <Link key={val} href={`/country/${val}`}
-                  className="block px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-blue-600/20 transition-colors">
+              {NAV_COUNTRIES.map(({ label, slug, Flag }) => (
+                <Link key={slug} href={`/country/${slug}`}
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-blue-600/20 transition-colors">
+                  <Flag style={{ width: 20, height: 13, borderRadius: 2 }} />
                   {label}
                 </Link>
               ))}
