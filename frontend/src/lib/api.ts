@@ -1,4 +1,9 @@
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+// Server-side (SSR/build): pakai API_URL agar tidak lewat internet saat build
+// Client-side (browser): pakai NEXT_PUBLIC_API_URL (domain publik)
+const API =
+  typeof window === "undefined"
+    ? process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(`${API}${path}`, { next: { revalidate: 300 } });
