@@ -36,7 +36,7 @@ const GENRE_FILTERS = [
 const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent; bg?: string }[] = [
   { label: "USA",       href: "/country/usa",            Flag: US, bg: "https://images.unsplash.com/photo-1576606970009-7ddc4229ced7?q=80&w=400&auto=format&fit=crop" },
   { label: "Korea",     href: "/country/korea",          Flag: KR, bg: "https://images.unsplash.com/photo-1448523183439-d2ac62aca997?q=80&w=400&auto=format&fit=crop" },
-  { label: "Jepang",    href: "/country/japan",          Flag: JP },
+  { label: "Jepang",    href: "/country/japan",          Flag: JP, bg: "https://images.unsplash.com/photo-1574236170880-fbbca132d83d?q=80&w=400&auto=format&fit=crop" },
   { label: "Indonesia", href: "/country/indonesia",      Flag: ID },
   { label: "China",     href: "/country/china",          Flag: CN },
   { label: "India",     href: "/country/india",          Flag: IN },
