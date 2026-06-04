@@ -19,18 +19,18 @@ import MY from "country-flag-icons/react/3x2/MY";
 type FlagComponent = React.ComponentType<any>;
 
 const GENRE_FILTERS = [
-  { label: "Action",      href: "/genre/action",          icon: <Swords   size={22} />, from: "#7f1d1d", to: "#dc2626" },
-  { label: "Comedy",      href: "/genre/comedy",          icon: <Laugh    size={22} />, from: "#78350f", to: "#f59e0b" },
-  { label: "Horror",      href: "/genre/horror",          icon: <Skull    size={22} />, from: "#2e1065", to: "#7c3aed" },
-  { label: "Romance",     href: "/genre/romance",         icon: <Heart    size={22} />, from: "#831843", to: "#ec4899" },
-  { label: "Sci-Fi",      href: "/genre/science-fiction", icon: <Rocket   size={22} />, from: "#1e3a8a", to: "#3b82f6" },
-  { label: "Thriller",    href: "/genre/thriller",        icon: <Eye      size={22} />, from: "#0f172a", to: "#475569" },
-  { label: "Drama",       href: "/genre/drama",           icon: <Sunset   size={22} />, from: "#134e4a", to: "#0d9488" },
-  { label: "Fantasy",     href: "/genre/fantasy",         icon: <Sparkles size={22} />, from: "#4c1d95", to: "#8b5cf6" },
-  { label: "Crime",       href: "/genre/crime",           icon: <Search   size={22} />, from: "#7c2d12", to: "#f97316" },
-  { label: "Adventure",   href: "/genre/adventure",       icon: <Compass  size={22} />, from: "#14532d", to: "#22c55e" },
-  { label: "Documentary", href: "/genre/documentary",     icon: <BookOpen size={22} />, from: "#1c1917", to: "#78716c" },
-  { label: "Music",       href: "/genre/music",           icon: <Music    size={22} />, from: "#701a75", to: "#d946ef" },
+  { label: "Action",      href: "/genre/action",          icon: <Swords   size={32} />, from: "#7f1d1d", to: "#dc2626" },
+  { label: "Comedy",      href: "/genre/comedy",          icon: <Laugh    size={32} />, from: "#78350f", to: "#f59e0b" },
+  { label: "Horror",      href: "/genre/horror",          icon: <Skull    size={32} />, from: "#2e1065", to: "#7c3aed" },
+  { label: "Romance",     href: "/genre/romance",         icon: <Heart    size={32} />, from: "#831843", to: "#ec4899" },
+  { label: "Sci-Fi",      href: "/genre/science-fiction", icon: <Rocket   size={32} />, from: "#1e3a8a", to: "#3b82f6" },
+  { label: "Thriller",    href: "/genre/thriller",        icon: <Eye      size={32} />, from: "#0f172a", to: "#475569" },
+  { label: "Drama",       href: "/genre/drama",           icon: <Sunset   size={32} />, from: "#134e4a", to: "#0d9488" },
+  { label: "Fantasy",     href: "/genre/fantasy",         icon: <Sparkles size={32} />, from: "#4c1d95", to: "#8b5cf6" },
+  { label: "Crime",       href: "/genre/crime",           icon: <Search   size={32} />, from: "#7c2d12", to: "#f97316" },
+  { label: "Adventure",   href: "/genre/adventure",       icon: <Compass  size={32} />, from: "#14532d", to: "#22c55e" },
+  { label: "Documentary", href: "/genre/documentary",     icon: <BookOpen size={32} />, from: "#1c1917", to: "#78716c" },
+  { label: "Music",       href: "/genre/music",           icon: <Music    size={32} />, from: "#701a75", to: "#d946ef" },
 ];
 
 const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent; bg?: string }[] = [
@@ -58,8 +58,8 @@ export default function QuickFilters() {
             <Link
               key={f.href}
               href={f.href}
-              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10"
-              style={{ width: 100, aspectRatio: "3/4" }}
+              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 w-[110px] md:w-[179px]"
+              style={{ aspectRatio: "2/3" }}
             >
               {/* Gradient background */}
               <div
@@ -96,8 +96,8 @@ export default function QuickFilters() {
             <Link
               key={href}
               href={href}
-              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10"
-              style={{ width: 100, aspectRatio: "3/4", background: "#0d1b2a", border: "1px solid rgba(255,255,255,0.07)" }}
+              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 w-[110px] md:w-[179px]"
+              style={{ aspectRatio: "2/3", background: "#0d1b2a", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               {bg ? (
                 /* Background image mode */
