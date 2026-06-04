@@ -1,15 +1,24 @@
 "use client";
 import { useState } from "react";
+import { PictureInPicture2 } from "lucide-react";
 import type { Server } from "@/lib/api";
+import { usePip } from "@/context/PipContext";
 
 interface Props {
   servers: Server[];
   poster?: string | null;
+  title?: string;
 }
 
-export default function VideoPlayer({ servers, poster }: Props) {
+export default function VideoPlayer({ servers, poster, title }: Props) {
   const [active, setActive] = useState(0);
+  const { setPip } = usePip();
   const current = servers[active];
+
+  function activatePip() {
+    if (!current?.embedUrl) return;
+    setPip({ embedUrl: current.embedUrl, title, poster });
+  }
 
   return (
     <div>
@@ -54,9 +63,21 @@ export default function VideoPlayer({ servers, poster }: Props) {
         </div>
       </div>
 
-      {/* Server tabs */}
+      {/* Server tabs + PiP button */}
+      <div className="flex items-center gap-2 mt-3 flex-wrap">
+        {current?.embedUrl && (
+          <button
+            onClick={activatePip}
+            title="Mini Player"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white transition-colors ml-auto"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <PictureInPicture2 size={14} /> Mini Player
+          </button>
+        )}
+      </div>
       {servers.length > 1 && (
-        <div className="flex gap-2 mt-3 flex-wrap">
+        <div className="flex gap-2 mt-2 flex-wrap">
           {servers.map((s, i) => (
             <button
               key={i}
@@ -78,5 +99,5 @@ export default function VideoPlayer({ servers, poster }: Props) {
         </div>
       )}
     </div>
-  );
+  )
 }

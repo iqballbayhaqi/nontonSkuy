@@ -6,6 +6,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import MovieCard from "@/components/MovieCard";
 import WatchlistButton from "@/components/WatchlistButton";
 import HistoryRecorder from "@/components/HistoryRecorder";
+import ShareButton from "@/components/ShareButton";
 
 function getYouTubeId(url: string | null): string | null {
   if (!url) return null;
@@ -188,6 +189,7 @@ export default async function MoviePage({ params }: Props) {
 
         {/* Watchlist button + history recorder */}
         <div className="mt-5 flex gap-3 flex-wrap">
+          <ShareButton title={movie.title} />
           <WatchlistButton
             movie={{
               slug,
@@ -212,7 +214,7 @@ export default async function MoviePage({ params }: Props) {
         {/* Video Player */}
         <div className="mt-8">
           <h2 className="text-lg font-bold text-white mb-4">Tonton Film</h2>
-          <VideoPlayer servers={movie.servers} poster={movie.poster} />
+          <VideoPlayer servers={movie.servers} poster={movie.poster} title={movie.title} />
         </div>
 
         {/* Cast */}

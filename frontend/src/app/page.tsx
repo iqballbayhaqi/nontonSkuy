@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { api } from "@/lib/api";
 import HeroSlider from "@/components/HeroSlider";
 import MovieRow from "@/components/MovieRow";
+import MovieRowSkeleton from "@/components/MovieRowSkeleton";
 import ContinueWatchingRow from "@/components/ContinueWatchingRow";
 import QuickFilters from "@/components/QuickFilters";
 
@@ -46,12 +48,13 @@ export default async function HomePage() {
         <QuickFilters />
 
         {GENRES.map((g, i) => (
-          <MovieRow
-            key={g.slug}
-            title={g.label}
-            movies={genreResults[i].movies}
-            seeAllHref={`/genre/${g.slug}`}
-          />
+          <Suspense key={g.slug} fallback={<MovieRowSkeleton title={g.label} />}>
+            <MovieRow
+              title={g.label}
+              movies={genreResults[i].movies}
+              seeAllHref={`/genre/${g.slug}`}
+            />
+          </Suspense>
         ))}
       </div>
     </div>
