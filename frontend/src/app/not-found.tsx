@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Film, Home, Search, ArrowLeft } from "lucide-react";
+import { Film, Home, Search } from "lucide-react";
+import BackButton from "@/components/BackButton";
 
 export const metadata = { title: "404 – Halaman Tidak Ditemukan | nontonSkuy" };
 
@@ -71,13 +72,7 @@ export default function NotFound() {
         </Link>
       </div>
 
-      {/* Back link */}
-      <button
-        onClick={() => history.back()}
-        className="mt-6 flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-400 transition-colors"
-      >
-        <ArrowLeft size={13} /> Kembali ke halaman sebelumnya
-      </button>
+      <BackButton />
     </div>
   );
 }
