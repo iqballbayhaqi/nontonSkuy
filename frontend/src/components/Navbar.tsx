@@ -267,14 +267,13 @@ export default function Navbar() {
           )}
         </div>
 
-          {/* Mobile menu toggle */}
-          <button
-            className="md:hidden p-2 text-slate-300 hover:text-white"
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
+        {/* Mobile menu toggle */}
+        <button
+          className="md:hidden p-2 text-slate-300 hover:text-white"
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
 
       {/* Mobile menu */}
