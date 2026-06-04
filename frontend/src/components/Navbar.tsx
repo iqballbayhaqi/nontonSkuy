@@ -123,7 +123,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav — navigasi konten */}
         <div className="hidden md:flex items-center gap-1 ml-4">
           {NAV_LINKS.map((l) => (
             <Link
@@ -134,19 +134,7 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-          <Link href="/watchlist" className="p-2 text-slate-300 hover:text-white transition-colors" title="Watchlist">
-            <Bookmark size={18} />
-          </Link>
-          <Link href="/history" className="p-2 text-slate-300 hover:text-white transition-colors" title="Riwayat">
-            <History size={18} />
-          </Link>
-          <Link
-            href={NAV_18.href}
-            className="px-2.5 py-1 text-xs font-extrabold rounded transition-opacity hover:opacity-80"
-            style={{ background: "#dc2626", color: "#fff" }}
-          >
-            {NAV_18.label}
-          </Link>
+
           {/* Genre dropdown */}
           <div className="relative group">
             <button className="px-3 py-1.5 text-sm text-slate-300 hover:text-white rounded transition-colors hover:bg-white/5">
@@ -189,6 +177,24 @@ export default function Navbar() {
         </div>
 
         <div className="flex-1" />
+
+        {/* Desktop action buttons — kanan */}
+        <div className="hidden md:flex items-center gap-1">
+          <Link href="/watchlist" className="p-2 text-slate-400 hover:text-white transition-colors rounded hover:bg-white/5" title="Watchlist">
+            <Bookmark size={18} />
+          </Link>
+          <Link href="/history" className="p-2 text-slate-400 hover:text-white transition-colors rounded hover:bg-white/5" title="Riwayat">
+            <History size={18} />
+          </Link>
+          <div className="w-px h-5 mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
+          <Link
+            href={NAV_18.href}
+            className="px-2.5 py-1 text-xs font-extrabold rounded transition-opacity hover:opacity-80"
+            style={{ background: "#dc2626", color: "#fff" }}
+          >
+            {NAV_18.label}
+          </Link>
+        </div>
 
         {/* Search */}
         <div className="flex items-center gap-2">
