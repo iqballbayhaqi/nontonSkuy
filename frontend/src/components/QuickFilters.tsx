@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import ScrollableRow from "./ScrollableRow";
 import {
   Swords, Laugh, Skull, Heart, Rocket, Eye,
   Sparkles, Search, BookOpen, Compass, Music, Sunset,
@@ -53,7 +54,7 @@ export default function QuickFilters() {
       {/* Genre Cards */}
       <div>
         <p className="text-xs text-slate-500 uppercase tracking-wider mb-3 font-semibold">Genre</p>
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <ScrollableRow>
           {GENRE_FILTERS.map((f) => (
             <Link
               key={f.href}
@@ -85,13 +86,13 @@ export default function QuickFilters() {
               />
             </Link>
           ))}
-        </div>
+        </ScrollableRow>
       </div>
 
       {/* Country Cards */}
       <div>
         <p className="text-xs text-slate-500 uppercase tracking-wider mb-3 font-semibold">Negara</p>
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <ScrollableRow>
           {COUNTRY_FILTERS.map(({ label, href, Flag, bg }) => (
             <Link
               key={href}
@@ -133,7 +134,7 @@ export default function QuickFilters() {
               )}
             </Link>
           ))}
-        </div>
+        </ScrollableRow>
       </div>
 
     </div>

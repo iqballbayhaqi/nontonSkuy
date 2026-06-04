@@ -4,6 +4,7 @@ import Link from "next/link";
 import { History } from "lucide-react";
 import { getHistory, type HistoryItem } from "@/lib/storage";
 import MovieCard from "./MovieCard";
+import ScrollableRow from "./ScrollableRow";
 
 export default function ContinueWatchingRow() {
   const [items, setItems] = useState<HistoryItem[]>([]);
@@ -23,9 +24,9 @@ export default function ContinueWatchingRow() {
           Lihat semua
         </Link>
       </div>
-      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+      <ScrollableRow>
         {items.map((item) => (
-          <div key={item.slug} className="shrink-0" style={{ width: 140 }}>
+          <div key={item.slug} className="shrink-0">
             <MovieCard
               movie={{
                 slug: item.slug,
@@ -40,7 +41,7 @@ export default function ContinueWatchingRow() {
             />
           </div>
         ))}
-      </div>
+      </ScrollableRow>
     </section>
   );
 }

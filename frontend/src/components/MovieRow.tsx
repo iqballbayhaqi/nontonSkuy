@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import MovieCard from "./MovieCard";
+import ScrollableRow from "./ScrollableRow";
 import type { Movie } from "@/lib/api";
 
 interface Props {
@@ -25,10 +26,14 @@ export default function MovieRow({ title, movies, seeAllHref }: Props) {
           </Link>
         )}
       </div>
-      <div className="scroll-row px-4 md:px-8">
-        {movies.map((m, i) => (
-          <MovieCard key={m.slug ?? i} movie={m} width={140} />
-        ))}
+      <div className="px-4 md:px-8">
+        <ScrollableRow>
+          {movies.map((m, i) => (
+            <div key={m.slug ?? i} className="shrink-0">
+              <MovieCard movie={m} width={140} />
+            </div>
+          ))}
+        </ScrollableRow>
       </div>
     </section>
   );
