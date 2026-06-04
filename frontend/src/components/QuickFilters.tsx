@@ -41,7 +41,7 @@ const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent; bg?: 
   { label: "China",     href: "/country/china",          Flag: CN, bg: "https://images.unsplash.com/photo-1569165755139-296fac054979?q=80&w=400&auto=format&fit=crop" },
   { label: "India",     href: "/country/india",          Flag: IN, bg: "https://images.unsplash.com/photo-1532664189809-02133fee698d?q=80&w=400&auto=format&fit=crop" },
   { label: "UK",        href: "/country/united-kingdom", Flag: GB, bg: "https://images.unsplash.com/photo-1569865867048-34cfce8d58fe?q=80&w=400&auto=format&fit=crop" },
-  { label: "Prancis",   href: "/country/france",         Flag: FR },
+  { label: "Prancis",   href: "/country/france",         Flag: FR, bg: "https://images.unsplash.com/photo-1549144511-f099e773c147?q=80&w=400&auto=format&fit=crop" },
   { label: "Thailand",  href: "/country/thailand",       Flag: TH },
   { label: "Malaysia",  href: "/country/malaysia",       Flag: MY },
 ];
