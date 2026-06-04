@@ -33,8 +33,8 @@ const GENRE_FILTERS = [
   { label: "Music",       href: "/genre/music",           icon: <Music    size={22} />, from: "#701a75", to: "#d946ef" },
 ];
 
-const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent }[] = [
-  { label: "USA",       href: "/country/usa",            Flag: US },
+const COUNTRY_FILTERS: { label: string; href: string; Flag: FlagComponent; bg?: string }[] = [
+  { label: "USA",       href: "/country/usa",            Flag: US, bg: "https://images.unsplash.com/photo-1576606970009-7ddc4229ced7?q=80&w=400&auto=format&fit=crop" },
   { label: "Korea",     href: "/country/korea",          Flag: KR },
   { label: "Jepang",    href: "/country/japan",          Flag: JP },
   { label: "Indonesia", href: "/country/indonesia",      Flag: ID },
@@ -92,24 +92,45 @@ export default function QuickFilters() {
       <div>
         <p className="text-xs text-slate-500 uppercase tracking-wider mb-3 font-semibold">Negara</p>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-          {COUNTRY_FILTERS.map(({ label, href, Flag }) => (
+          {COUNTRY_FILTERS.map(({ label, href, Flag, bg }) => (
             <Link
               key={href}
               href={href}
-              className="group shrink-0 rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 flex flex-col"
+              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10"
               style={{ width: 100, aspectRatio: "3/4", background: "#0d1b2a", border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              {/* Flag — centered in flex-1 area */}
-              <div className="flex-1 flex items-center justify-center px-3 pt-3 opacity-90 group-hover:opacity-100 transition-opacity">
-                <Flag className="w-full rounded-sm shadow-lg" />
-              </div>
-              {/* Label — fixed di bawah, bukan absolute */}
-              <div
-                className="px-2 py-2 text-center shrink-0"
-                style={{ background: "rgba(6,13,23,0.75)", backdropFilter: "blur(4px)" }}
-              >
-                <span className="text-white text-xs font-semibold">{label}</span>
-              </div>
+              {bg ? (
+                /* Background image mode */
+                <>
+                  <img
+                    src={bg}
+                    alt={label}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(6,13,23,0.85) 0%, rgba(6,13,23,0.2) 50%, transparent 100%)" }} />
+                  {/* Flag badge kecil di kiri atas */}
+                  <div className="absolute top-2 left-2">
+                    <Flag style={{ width: 24, height: 16, borderRadius: 3 }} className="shadow-md" />
+                  </div>
+                  {/* Label di bawah */}
+                  <div className="absolute bottom-0 left-0 right-0 px-2 py-2 text-center">
+                    <span className="text-white text-xs font-bold drop-shadow">{label}</span>
+                  </div>
+                </>
+              ) : (
+                /* Flag fallback mode */
+                <>
+                  <div className="absolute inset-0 flex flex-col">
+                    <div className="flex-1 flex items-center justify-center px-3 pt-3">
+                      <Flag className="w-full rounded-sm shadow-lg" />
+                    </div>
+                    <div className="px-2 py-2 text-center" style={{ background: "rgba(6,13,23,0.75)", backdropFilter: "blur(4px)" }}>
+                      <span className="text-white text-xs font-semibold">{label}</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </Link>
           ))}
         </div>
