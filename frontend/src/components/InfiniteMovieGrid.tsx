@@ -50,7 +50,7 @@ export default function InfiniteMovieGrid({ initialMovies, initialHasNext, apiPa
 
   return (
     <>
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2 sm:gap-3 md:gap-4">
         {movies.map((m, i) => (
           <MovieCard key={`${m.slug ?? m.title}-${i}`} movie={m} />
         ))}

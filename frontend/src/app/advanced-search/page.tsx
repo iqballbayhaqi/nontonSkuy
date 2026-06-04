@@ -30,8 +30,8 @@ export default async function AdvancedSearchPage({ searchParams }: Props) {
   const hasActiveFilter = !!(q || post_type || orderby || genre || year || country || quality);
 
   return (
-    <div className="pt-24 pb-12 max-w-screen-xl mx-auto px-4 md:px-8">
-      <h1 className="text-2xl font-bold text-white mb-6">Pencarian Lanjutan</h1>
+    <div className="pt-20 pb-12 max-w-screen-xl mx-auto px-3 sm:px-4 md:px-8">
+      <h1 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Pencarian Lanjutan</h1>
 
       <AdvancedSearchFilters
         initial={{ q, post_type, orderby, genre, year, country, quality }}

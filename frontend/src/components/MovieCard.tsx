@@ -8,12 +8,16 @@ interface Props {
   width?: number;
 }
 
-export default function MovieCard({ movie, width = 152 }: Props) {
+export default function MovieCard({ movie, width }: Props) {
   const slug = movie.slug || movie.link?.split("/").filter(Boolean).pop();
   const href = slug ? `/movie/${slug}` : "#";
 
   return (
-    <Link href={href} className="group block" style={{ width }}>
+    <Link
+      href={href}
+      className={`group block${width ? "" : " w-full"}`}
+      style={width ? { width } : undefined}
+    >
       <div
         className="relative overflow-hidden rounded-lg transition-transform duration-200 group-hover:scale-105 group-hover:z-10"
         style={{
@@ -28,7 +32,7 @@ export default function MovieCard({ movie, width = 152 }: Props) {
             alt={movie.title}
             fill
             className="object-cover"
-            sizes={`${width}px`}
+            sizes={width ? `${width}px` : "(max-width: 640px) 33vw, (max-width: 768px) 25vw, (max-width: 1024px) 16vw, 14vw"}
             unoptimized
           />
         ) : (

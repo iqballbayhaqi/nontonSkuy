@@ -14,7 +14,7 @@ export default async function GenrePage({ params }: Props) {
   const { genre } = await params;
   const data = await api.genre(genre, 1);
   return (
-    <div className="pt-24 pb-12 max-w-screen-xl mx-auto px-4 md:px-8">
+    <div className="pt-20 pb-12 max-w-screen-xl mx-auto px-3 sm:px-4 md:px-8">
       <h1 className="text-2xl font-bold text-white mb-1 capitalize">
         {genre.replace(/-/g, " ")}
       </h1>

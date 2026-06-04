@@ -19,7 +19,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const data = await api.search(q, 1);
 
   return (
-    <div className="pt-24 pb-12 max-w-screen-xl mx-auto px-4 md:px-8">
+    <div className="pt-20 pb-12 max-w-screen-xl mx-auto px-3 sm:px-4 md:px-8">
       <h1 className="text-2xl font-bold text-white mb-1">
         Hasil: <span style={{ color: "#3b82f6" }}>{q}</span>
       </h1>
