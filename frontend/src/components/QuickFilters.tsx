@@ -96,16 +96,16 @@ export default function QuickFilters() {
             <Link
               key={href}
               href={href}
-              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10"
+              className="group shrink-0 rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 flex flex-col"
               style={{ width: 100, aspectRatio: "3/4", background: "#0d1b2a", border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              {/* Flag full bleed */}
-              <div className="absolute inset-0 flex items-center justify-center p-3 opacity-90 group-hover:opacity-100 transition-opacity">
-                <Flag className="w-full rounded-sm shadow-lg" style={{ maxHeight: 54 }} />
+              {/* Flag — centered in flex-1 area */}
+              <div className="flex-1 flex items-center justify-center px-3 pt-3 opacity-90 group-hover:opacity-100 transition-opacity">
+                <Flag className="w-full rounded-sm shadow-lg" />
               </div>
-              {/* Bottom label */}
+              {/* Label — fixed di bawah, bukan absolute */}
               <div
-                className="absolute bottom-0 left-0 right-0 px-2 py-1.5 text-center"
+                className="px-2 py-2 text-center shrink-0"
                 style={{ background: "rgba(6,13,23,0.75)", backdropFilter: "blur(4px)" }}
               >
                 <span className="text-white text-xs font-semibold">{label}</span>
