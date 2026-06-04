@@ -145,6 +145,28 @@ export default function Navbar() {
               ))}
             </div>
           </div>
+
+          {/* Negara dropdown */}
+          <div className="relative group">
+            <button className="px-3 py-1.5 text-sm text-slate-300 hover:text-white rounded transition-colors hover:bg-white/5">
+              Negara ▾
+            </button>
+            <div
+              className="absolute top-full left-0 mt-1 w-44 rounded-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+              style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
+            >
+              {[
+                ["🇺🇸 USA", "usa"], ["🇰🇷 Korea", "korea"], ["🇯🇵 Jepang", "japan"],
+                ["🇮🇩 Indonesia", "indonesia"], ["🇨🇳 China", "china"], ["🇮🇳 India", "india"],
+                ["🇬🇧 UK", "united-kingdom"], ["🇫🇷 Prancis", "france"], ["🇹🇭 Thailand", "thailand"],
+              ].map(([label, val]) => (
+                <Link key={val} href={`/country/${val}`}
+                  className="block px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-blue-600/20 transition-colors">
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="flex-1" />

@@ -2,6 +2,7 @@ import { api } from "@/lib/api";
 import HeroSlider from "@/components/HeroSlider";
 import MovieRow from "@/components/MovieRow";
 import ContinueWatchingRow from "@/components/ContinueWatchingRow";
+import QuickFilters from "@/components/QuickFilters";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ const GENRES = [
 export default async function HomePage() {
   const sliderPage = Math.floor(Math.random() * 6) + 1;
 
-  const [sliderData, latest, bestRating, ...genreResults] =
+  const [sliderData, latest, trending, ...genreResults] =
     await Promise.all([
       api.latest(sliderPage),
       api.latest(1),
@@ -39,8 +40,10 @@ export default async function HomePage() {
       <HeroSlider movies={sliderMovies} />
       <div className="mt-6">
         <ContinueWatchingRow />
-        <MovieRow title="Film Terbaru"   movies={latest.movies}    seeAllHref="/latest" />
-        <MovieRow title="Rating Terbaik" movies={bestRating.movies} seeAllHref="/best-rating" />
+        <MovieRow title="Film Terbaru"  movies={latest.movies}   seeAllHref="/latest" />
+        <MovieRow title="🔥 Trending"  movies={trending.movies} seeAllHref="/best-rating" />
+
+        <QuickFilters />
 
         {GENRES.map((g, i) => (
           <MovieRow

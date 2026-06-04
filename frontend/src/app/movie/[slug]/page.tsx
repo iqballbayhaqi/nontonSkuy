@@ -220,18 +220,19 @@ export default async function MoviePage({ params }: Props) {
           <div className="mt-10">
             <h2 className="text-base font-bold text-white mb-3">Pemeran</h2>
             <div className="flex flex-wrap gap-2">
-              {movie.cast.map((c) => (
-                <a
-                  key={c.url}
-                  href={c.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg text-sm transition-colors hover:opacity-80"
-                  style={{ background: "#0d1b2a", color: "#94a3b8", border: "1px solid rgba(255,255,255,0.07)" }}
-                >
-                  {c.name}
-                </a>
-              ))}
+              {movie.cast.map((c) => {
+                const castSlug = c.url.split("/cast/")[1]?.replace(/\/$/, "");
+                return (
+                  <Link
+                    key={c.url}
+                    href={castSlug ? `/cast/${castSlug}` : c.url}
+                    className="px-3 py-1.5 rounded-lg text-sm transition-colors hover:bg-blue-600/20 hover:text-blue-400"
+                    style={{ background: "#0d1b2a", color: "#94a3b8", border: "1px solid rgba(255,255,255,0.07)" }}
+                  >
+                    {c.name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}

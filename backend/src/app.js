@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const moviesRouter = require("./routes/scrape");
+const { scrapePerson } = require("./scraper");
 
 const app = express();
 
@@ -27,6 +28,17 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/movies", moviesRouter);
+
+// Cast & Director pages
+["cast", "director"].forEach((type) => {
+  app.get(`/api/${type}/:slug`, async (req, res, next) => {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const data = await scrapePerson(type, req.params.slug, page);
+      res.json({ success: true, data });
+    } catch (err) { next(err); }
+  });
+});
 
 app.use((err, req, res, next) => {
   console.error(err.message);

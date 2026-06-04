@@ -269,6 +269,19 @@ async function scrapeMovieDetail(slug) {
   };
 }
 
+async function scrapePerson(type, slug, page = 1) {
+  // type: 'cast' | 'director'
+  const path = page > 1 ? `/${type}/${slug}/page/${page}/` : `/${type}/${slug}/`;
+  const $ = await load(path);
+  const nameEl = $("h1.entry-title, .page-title, h1").first().text().trim();
+  return {
+    slug,
+    name: nameEl || slug.replace(/-/g, " "),
+    movies: parseMovieCards($),
+    pagination: parsePagination($),
+  };
+}
+
 module.exports = {
   scrapeLatest,
   scrapeCategory,
@@ -279,4 +292,5 @@ module.exports = {
   scrapeSearch,
   scrapeAdvancedSearch,
   scrapeMovieDetail,
+  scrapePerson,
 };
