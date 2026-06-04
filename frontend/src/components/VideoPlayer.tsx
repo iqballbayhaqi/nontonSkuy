@@ -4,33 +4,54 @@ import type { Server } from "@/lib/api";
 
 interface Props {
   servers: Server[];
+  poster?: string | null;
 }
 
-export default function VideoPlayer({ servers }: Props) {
+export default function VideoPlayer({ servers, poster }: Props) {
   const [active, setActive] = useState(0);
   const current = servers[active];
 
   return (
     <div>
-      {/* Player */}
-      <div
-        className="w-full rounded-xl overflow-hidden"
-        style={{ aspectRatio: "16/9", background: "#000" }}
-      >
-        {current?.embedUrl ? (
-          <iframe
-            key={current.embedUrl}
-            src={current.embedUrl}
-            className="w-full h-full"
-            allowFullScreen
-            allow="autoplay; fullscreen"
-            frameBorder="0"
+      {/* Player dengan ambient glow */}
+      <div className="relative">
+        {/* Ambient layer — poster diblur ekstrem sebagai glow di sekeliling player */}
+        {poster && (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 rounded-2xl scale-105 opacity-60"
+            style={{
+              backgroundImage: `url(${poster})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(32px) saturate(2.5) brightness(0.8)",
+              zIndex: 0,
+              transform: "scale(1.08)",
+              transition: "opacity 0.6s ease",
+            }}
           />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-slate-500">
-            <p>Server tidak tersedia</p>
-          </div>
         )}
+
+        {/* Player frame di atas ambient */}
+        <div
+          className="relative w-full rounded-xl overflow-hidden"
+          style={{ aspectRatio: "16/9", background: "#000", zIndex: 1 }}
+        >
+          {current?.embedUrl ? (
+            <iframe
+              key={current.embedUrl}
+              src={current.embedUrl}
+              className="w-full h-full"
+              allowFullScreen
+              allow="autoplay; fullscreen"
+              frameBorder="0"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-slate-500">
+              <p>Server tidak tersedia</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Server tabs */}
