@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import {
   Swords, Laugh, Skull, Heart, Rocket, Eye,
@@ -14,9 +15,8 @@ import GB from "country-flag-icons/react/3x2/GB";
 import FR from "country-flag-icons/react/3x2/FR";
 import TH from "country-flag-icons/react/3x2/TH";
 import MY from "country-flag-icons/react/3x2/MY";
-import type { ComponentType, SVGProps } from "react";
-
-type FlagComponent = ComponentType<SVGProps<SVGSVGElement>>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FlagComponent = React.ComponentType<any>;
 
 const GENRE_FILTERS: { label: string; href: string; icon: React.ReactNode }[] = [
   { label: "Action",      href: "/genre/action",          icon: <Swords size={14} /> },

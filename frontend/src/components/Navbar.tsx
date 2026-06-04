@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, Menu, X, Film, Bookmark, History, Clock } from "lucide-react";
@@ -17,9 +17,8 @@ import IN from "country-flag-icons/react/3x2/IN";
 import GB from "country-flag-icons/react/3x2/GB";
 import FR from "country-flag-icons/react/3x2/FR";
 import TH from "country-flag-icons/react/3x2/TH";
-import type { ComponentType, SVGProps } from "react";
-
-type FlagComp = ComponentType<SVGProps<SVGSVGElement>>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FlagComp = React.ComponentType<any>;
 const NAV_COUNTRIES: { label: string; slug: string; Flag: FlagComp }[] = [
   { label: "USA",       slug: "usa",            Flag: US },
   { label: "Korea",     slug: "korea",          Flag: KR },
