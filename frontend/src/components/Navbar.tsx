@@ -197,69 +197,75 @@ export default function Navbar() {
         </div>
 
         {/* Search */}
-        <div className="flex items-center gap-2">
-          {searchOpen ? (
-            <div ref={searchBoxRef} className="relative flex items-center gap-2">
-              <form onSubmit={handleSearch} className="flex items-center gap-2">
-                <input
-                  ref={inputRef}
-                  value={query}
-                  onChange={(e) => { setQuery(e.target.value); setShowHistory(true); }}
-                  onFocus={() => setShowHistory(true)}
-                  placeholder="Cari film..."
-                  className="px-3 py-1.5 text-sm rounded-lg outline-none w-48 md:w-64"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(59,130,246,0.5)",
-                    color: "white",
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => { setSearchOpen(false); setShowHistory(false); }}
-                  className="text-slate-400 hover:text-white"
-                >
-                  <X size={18} />
-                </button>
-              </form>
-
-              {/* Dropdown riwayat pencarian */}
-              {showHistory && searchHistory.length > 0 && !query && (
-                <div
-                  className="absolute top-full left-0 mt-1 w-64 rounded-lg py-1 z-50"
-                  style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
-                >
-                  <p className="px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
-                    <Clock size={11} /> Pencarian terbaru
-                  </p>
-                  {searchHistory.map((q) => (
-                    <div
-                      key={q}
-                      onClick={() => pickHistory(q)}
-                      className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-blue-600/20 transition-colors"
-                    >
-                      <span className="text-sm text-slate-300 flex items-center gap-2">
-                        <Search size={12} className="text-slate-500" /> {q}
-                      </span>
-                      <button
-                        onClick={(e) => deleteHistory(q, e)}
-                        className="text-slate-600 hover:text-slate-300"
-                      >
-                        <X size={12} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
+        <div ref={searchBoxRef} className="flex items-center gap-2 relative">
+          <form onSubmit={handleSearch} className="flex items-center gap-1">
+            {/* Input — selalu ada, animasi width */}
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setShowHistory(true); }}
+              onFocus={() => setShowHistory(true)}
+              placeholder="Cari film..."
+              className="text-sm rounded-lg outline-none py-1.5 px-3 transition-all duration-300 ease-in-out"
+              style={{
+                width: searchOpen ? 220 : 0,
+                paddingLeft: searchOpen ? 12 : 0,
+                paddingRight: searchOpen ? 12 : 0,
+                opacity: searchOpen ? 1 : 0,
+                pointerEvents: searchOpen ? "auto" : "none",
+                background: "rgba(255,255,255,0.08)",
+                border: searchOpen ? "1px solid rgba(59,130,246,0.5)" : "1px solid transparent",
+                color: "white",
+                overflow: "hidden",
+              }}
+            />
+            {/* X saat terbuka, Search icon saat tertutup */}
             <button
-              onClick={() => setSearchOpen(true)}
-              className="p-2 text-slate-300 hover:text-white transition-colors"
+              type="button"
+              onClick={() => {
+                if (searchOpen) {
+                  setSearchOpen(false);
+                  setShowHistory(false);
+                  setQuery("");
+                } else {
+                  setSearchOpen(true);
+                }
+              }}
+              className="p-2 text-slate-300 hover:text-white transition-colors rounded hover:bg-white/5"
             >
-              <Search size={20} />
+              {searchOpen ? <X size={18} /> : <Search size={20} />}
             </button>
+          </form>
+
+          {/* Dropdown riwayat pencarian */}
+          {showHistory && searchHistory.length > 0 && !query && searchOpen && (
+            <div
+              className="absolute top-full right-0 mt-1 w-64 rounded-lg py-1 z-50"
+              style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
+            >
+              <p className="px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
+                <Clock size={11} /> Pencarian terbaru
+              </p>
+              {searchHistory.map((q) => (
+                <div
+                  key={q}
+                  onClick={() => pickHistory(q)}
+                  className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-blue-600/20 transition-colors"
+                >
+                  <span className="text-sm text-slate-300 flex items-center gap-2">
+                    <Search size={12} className="text-slate-500" /> {q}
+                  </span>
+                  <button
+                    onClick={(e) => deleteHistory(q, e)}
+                    className="text-slate-600 hover:text-slate-300"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
+        </div>
 
           {/* Mobile menu toggle */}
           <button
