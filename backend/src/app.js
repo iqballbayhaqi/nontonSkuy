@@ -3,7 +3,8 @@ const express = require("express");
 const cors = require("cors");
 
 const moviesRouter = require("./routes/scrape");
-const { scrapePerson } = require("./scraper");
+const { scrapePerson } = require("./scraper-cached");
+const { stats, flush } = require("./cache");
 
 const app = express();
 
@@ -23,8 +24,20 @@ app.get("/", (req, res) => {
       country:     "GET /api/movies/country/:country      (indonesia|korea|usa|...)",
       year:        "GET /api/movies/year/:year",
       detail:      "GET /api/movies/:slug",
+      cacheStats:  "GET /cache/stats",
+      cacheFlush:  "POST /cache/flush",
     },
   });
+});
+
+// Cache monitoring & control
+app.get("/cache/stats", (req, res) => {
+  res.json({ success: true, entries: stats() });
+});
+
+app.post("/cache/flush", (req, res) => {
+  flush();
+  res.json({ success: true, message: "Cache cleared" });
 });
 
 app.use("/api/movies", moviesRouter);
@@ -41,8 +54,19 @@ app.use("/api/movies", moviesRouter);
 });
 
 app.use((err, req, res, next) => {
-  console.error(err.message);
-  res.status(500).json({ success: false, message: err.message });
+  const isSourceDown =
+    err.code === "ECONNREFUSED" ||
+    err.code === "ETIMEDOUT" ||
+    err.code === "ENOTFOUND" ||
+    (err.response && err.response.status >= 500);
+
+  const status = isSourceDown ? 503 : 500;
+  const message = isSourceDown
+    ? "Source website sedang tidak dapat diakses. Coba beberapa saat lagi."
+    : err.message;
+
+  console.error(`[${status}] ${err.message}`);
+  res.status(status).json({ success: false, message });
 });
 
 module.exports = app;
