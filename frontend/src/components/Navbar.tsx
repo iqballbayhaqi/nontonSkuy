@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Menu, X, Film, Bookmark, History, Clock, Tv, Download } from "lucide-react";
+import { Search, Menu, X, Film, Bookmark, History, Clock, Tv, Home, TrendingUp, Globe, Heart } from "lucide-react";
 import {
   getSearchHistory,
   addToSearchHistory,
@@ -290,69 +290,119 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div
-          className="md:hidden px-4 pb-4 pt-1 flex flex-col gap-1"
-          style={{ borderTop: "1px solid rgba(29,111,232,0.15)", background: "rgba(6,13,23,0.98)" }}
+          className="md:hidden overflow-y-auto"
+          style={{
+            borderTop: "1px solid rgba(29,111,232,0.18)",
+            background: "rgba(6,13,23,0.99)",
+            maxHeight: "80vh",
+          }}
         >
-          {NAV_LINKS.map((l) => (
+          {/* ── Navigasi Utama ── */}
+          <div className="px-3 pt-3 pb-1 flex flex-col gap-0.5">
             <Link
-              key={l.href}
-              href={l.href}
+              href="/"
               onClick={() => setMenuOpen(false)}
-              className="px-3 py-2 text-sm text-slate-300 hover:text-white rounded hover:bg-white/5 transition-colors"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
             >
-              {l.label}
+              <Home size={18} className="text-blue-400 shrink-0" /> Beranda
             </Link>
-          ))}
-          <Link
-            href="/watchlist"
-            onClick={() => setMenuOpen(false)}
-            className="px-3 py-2 text-sm text-slate-300 hover:text-white rounded hover:bg-white/5 transition-colors flex items-center gap-2"
-          >
-            <Bookmark size={15} /> Watchlist
-          </Link>
-          <Link
-            href="/history"
-            onClick={() => setMenuOpen(false)}
-            className="px-3 py-2 text-sm text-slate-300 hover:text-white rounded hover:bg-white/5 transition-colors flex items-center gap-2"
-          >
-            <History size={15} /> Riwayat Tontonan
-          </Link>
-          <Link
-            href={NAV_18.href}
-            onClick={() => setMenuOpen(false)}
-            className="px-3 py-2 text-sm font-extrabold rounded transition-opacity hover:opacity-80 w-fit"
-            style={{ background: "#dc2626", color: "#fff" }}
-          >
-            {NAV_18.label}
-          </Link>
-          <a
-            href="/nontonSkuy-tv.apk"
-            download="nontonSkuy-tv.apk"
-            onClick={() => setMenuOpen(false)}
-            className="px-3 py-2 text-sm font-bold rounded hover:opacity-80 transition-opacity flex items-center gap-2 w-fit"
-            style={{ background: "rgba(22,163,74,0.2)", color: "#4ade80", border: "1px solid rgba(22,163,74,0.4)" }}
-          >
-            <Tv size={15} /> Download untuk Android TV / Google TV
-          </a>
-          <Link
-            href="/donasi"
-            onClick={() => setMenuOpen(false)}
-            className="px-3 py-2 text-sm font-semibold rounded hover:opacity-80 transition-opacity flex items-center gap-2 w-fit"
-            style={{ background: "rgba(236,72,153,0.15)", color: "#f472b6", border: "1px solid rgba(236,72,153,0.3)" }}
-          >
-            ❤️ Dukung Pengembang
-          </Link>
-          <div className="mt-1 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-            <p className="px-3 text-xs text-slate-500 mb-1 uppercase tracking-wider">Genre</p>
-            <div className="grid grid-cols-2 gap-1">
+            <Link
+              href="/best-rating"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
+            >
+              <TrendingUp size={18} className="text-yellow-400 shrink-0" /> Terbaik
+            </Link>
+            <Link
+              href="/watchlist"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
+            >
+              <Bookmark size={18} className="text-blue-400 shrink-0" /> Watchlist
+            </Link>
+            <Link
+              href="/history"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
+            >
+              <History size={18} className="text-slate-400 shrink-0" /> Riwayat Tontonan
+            </Link>
+          </div>
+
+          {/* ── Aksi Khusus ── */}
+          <div className="px-3 py-3 flex flex-col gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            {/* Download TV App */}
+            <a
+              href="/nontonSkuy-tv.apk"
+              download="nontonSkuy-tv.apk"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 active:opacity-75"
+              style={{ background: "linear-gradient(135deg, rgba(22,163,74,0.25), rgba(15,118,110,0.25))", color: "#4ade80", border: "1px solid rgba(22,163,74,0.4)" }}
+            >
+              <Tv size={18} className="shrink-0" />
+              <div>
+                <div className="leading-tight">Download Android TV App</div>
+                <div className="text-xs font-normal opacity-70 mt-0.5">Untuk Android TV &amp; Google TV</div>
+              </div>
+            </a>
+
+            {/* 18+ dan Donasi berdampingan */}
+            <div className="flex gap-2">
+              <Link
+                href={NAV_18.href}
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-extrabold transition-opacity hover:opacity-90 active:opacity-75"
+                style={{ background: "rgba(220,38,38,0.2)", color: "#f87171", border: "1px solid rgba(220,38,38,0.4)" }}
+              >
+                🔞 18+
+              </Link>
+              <Link
+                href="/donasi"
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 active:opacity-75"
+                style={{ background: "rgba(236,72,153,0.15)", color: "#f472b6", border: "1px solid rgba(236,72,153,0.3)" }}
+              >
+                <Heart size={15} /> Donasi
+              </Link>
+            </div>
+          </div>
+
+          {/* ── Genre ── */}
+          <div className="px-3 pb-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <p className="px-1 pt-3 pb-2 text-xs font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+              <Film size={11} /> Genre
+            </p>
+            <div className="grid grid-cols-3 gap-1.5">
               {GENRES.map((g) => (
                 <Link
                   key={g}
                   href={`/genre/${g}`}
                   onClick={() => setMenuOpen(false)}
-                  className="px-3 py-1.5 text-sm capitalize text-slate-400 hover:text-white rounded hover:bg-white/5"
+                  className="px-2 py-2.5 rounded-lg text-xs capitalize text-center text-slate-400 hover:text-white hover:bg-white/8 active:bg-white/12 transition-colors font-medium"
+                  style={{ border: "1px solid rgba(255,255,255,0.07)" }}
                 >
                   {g.replace("-", " ")}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Negara ── */}
+          <div className="px-3 pb-5" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <p className="px-1 pt-3 pb-2 text-xs font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+              <Globe size={11} /> Negara
+            </p>
+            <div className="grid grid-cols-3 gap-1.5">
+              {NAV_COUNTRIES.map(({ label, slug, Flag }) => (
+                <Link
+                  key={slug}
+                  href={`/country/${slug}`}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2 px-2.5 py-2.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-white/8 active:bg-white/12 transition-colors font-medium"
+                  style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+                >
+                  <Flag style={{ width: 18, height: 12, borderRadius: 2, flexShrink: 0 }} />
+                  {label}
                 </Link>
               ))}
             </div>
