@@ -43,6 +43,7 @@ const GENRES = ["action", "adventure", "comedy", "crime", "drama", "fantasy", "h
 export default function Navbar() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuClosing, setMenuClosing] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
@@ -77,6 +78,24 @@ export default function Navbar() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  function openMenu() {
+    setMenuOpen(true);
+    setMenuClosing(false);
+  }
+
+  function closeMenu() {
+    setMenuClosing(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setMenuClosing(false);
+    }, 220);
+  }
+
+  function toggleMenu() {
+    if (menuOpen && !menuClosing) closeMenu();
+    else openMenu();
+  }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -281,7 +300,7 @@ export default function Navbar() {
         {/* Mobile menu toggle */}
         <button
           className="md:hidden p-2 text-slate-300 hover:text-white"
-          onClick={() => setMenuOpen((v) => !v)}
+          onClick={toggleMenu}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -290,39 +309,41 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div
-          className="md:hidden overflow-y-auto"
+          className="md:hidden"
           style={{
             borderTop: "1px solid rgba(29,111,232,0.18)",
             background: "rgba(6,13,23,0.99)",
-            maxHeight: "80vh",
+            animation: menuClosing
+              ? "navMenuOut 0.22s cubic-bezier(0.4,0,1,1) forwards"
+              : "navMenuIn 0.25s cubic-bezier(0,0,0.2,1) forwards",
           }}
         >
           {/* ── Navigasi Utama ── */}
           <div className="px-3 pt-3 pb-1 flex flex-col gap-0.5">
             <Link
               href="/"
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
             >
               <Home size={18} className="text-blue-400 shrink-0" /> Beranda
             </Link>
             <Link
               href="/best-rating"
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
             >
               <TrendingUp size={18} className="text-yellow-400 shrink-0" /> Terbaik
             </Link>
             <Link
               href="/watchlist"
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
             >
               <Bookmark size={18} className="text-blue-400 shrink-0" /> Watchlist
             </Link>
             <Link
               href="/history"
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/6 active:bg-white/10 transition-colors"
             >
               <History size={18} className="text-slate-400 shrink-0" /> Riwayat Tontonan
@@ -335,7 +356,7 @@ export default function Navbar() {
             <a
               href="/nontonSkuy-tv.apk"
               download="nontonSkuy-tv.apk"
-              onClick={() => setMenuOpen(false)}
+              onClick={closeMenu}
               className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 active:opacity-75"
               style={{ background: "linear-gradient(135deg, rgba(22,163,74,0.25), rgba(15,118,110,0.25))", color: "#4ade80", border: "1px solid rgba(22,163,74,0.4)" }}
             >
@@ -350,7 +371,7 @@ export default function Navbar() {
             <div className="flex gap-2">
               <Link
                 href={NAV_18.href}
-                onClick={() => setMenuOpen(false)}
+                onClick={closeMenu}
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-extrabold transition-opacity hover:opacity-90 active:opacity-75"
                 style={{ background: "rgba(220,38,38,0.2)", color: "#f87171", border: "1px solid rgba(220,38,38,0.4)" }}
               >
@@ -358,7 +379,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/donasi"
-                onClick={() => setMenuOpen(false)}
+                onClick={closeMenu}
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-opacity hover:opacity-90 active:opacity-75"
                 style={{ background: "rgba(236,72,153,0.15)", color: "#f472b6", border: "1px solid rgba(236,72,153,0.3)" }}
               >
@@ -377,7 +398,7 @@ export default function Navbar() {
                 <Link
                   key={g}
                   href={`/genre/${g}`}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={closeMenu}
                   className="px-2 py-2.5 rounded-lg text-xs capitalize text-center text-slate-400 hover:text-white hover:bg-white/8 active:bg-white/12 transition-colors font-medium"
                   style={{ border: "1px solid rgba(255,255,255,0.07)" }}
                 >
@@ -397,7 +418,7 @@ export default function Navbar() {
                 <Link
                   key={slug}
                   href={`/country/${slug}`}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={closeMenu}
                   className="flex items-center gap-2 px-2.5 py-2.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-white/8 active:bg-white/12 transition-colors font-medium"
                   style={{ border: "1px solid rgba(255,255,255,0.07)" }}
                 >

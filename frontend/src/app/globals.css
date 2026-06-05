@@ -59,6 +59,16 @@ body {
   background: linear-gradient(to top, #060d17 0%, rgba(6,13,23,0.5) 50%, transparent 100%);
 }
 
+/* Mobile nav menu animation */
+@keyframes navMenuIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes navMenuOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-10px); }
+}
+
 /* TV remote / D-pad focus — visible ring on buttons and links (not cards, handled inline) */
 button:focus-visible,
 a:not([data-movie-card]):focus-visible {
