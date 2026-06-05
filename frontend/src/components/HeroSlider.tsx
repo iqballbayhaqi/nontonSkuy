@@ -52,6 +52,8 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
       style={{ height: "70vh", minHeight: 420 }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
     >
       {/* Background layer */}
       <div

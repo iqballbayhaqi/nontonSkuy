@@ -59,7 +59,7 @@ export default function QuickFilters() {
             <Link
               key={f.href}
               href={f.href}
-              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 w-[110px] md:w-[179px]"
+              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 focus-visible:scale-105 focus-visible:z-10 focus:outline-none w-[110px] md:w-[179px]"
               style={{ aspectRatio: "2/3" }}
             >
               {/* Background image */}
@@ -84,10 +84,13 @@ export default function QuickFilters() {
               <div className="absolute bottom-0 left-0 right-0 px-2 py-2 text-center">
                 <span className="text-white text-xs font-bold drop-shadow">{f.label}</span>
               </div>
-              {/* Shine on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-200"
+              {/* Shine on hover/focus */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-15 group-focus-visible:opacity-15 transition-opacity duration-200"
                 style={{ background: "linear-gradient(135deg, white 0%, transparent 60%)" }}
               />
+              {/* Focus ring for TV remote */}
+              <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-focus-visible:opacity-100 transition-opacity"
+                style={{ boxShadow: "inset 0 0 0 3px #3b82f6" }} />
             </Link>
           ))}
         </ScrollableRow>
@@ -101,7 +104,7 @@ export default function QuickFilters() {
             <Link
               key={href}
               href={href}
-              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 w-[110px] md:w-[179px]"
+              className="group shrink-0 relative rounded-xl overflow-hidden transition-transform duration-200 hover:scale-105 hover:z-10 focus-visible:scale-105 focus-visible:z-10 focus:outline-none w-[110px] md:w-[179px]"
               style={{ aspectRatio: "2/3", background: "#0d1b2a", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               {bg ? (
@@ -136,6 +139,9 @@ export default function QuickFilters() {
                   </div>
                 </>
               )}
+              {/* Focus ring for TV remote */}
+              <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-focus-visible:opacity-100 transition-opacity"
+                style={{ boxShadow: "inset 0 0 0 3px #3b82f6" }} />
             </Link>
           ))}
         </ScrollableRow>

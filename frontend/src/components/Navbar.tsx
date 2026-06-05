@@ -137,18 +137,18 @@ export default function Navbar() {
 
           {/* Genre dropdown */}
           <div className="relative group">
-            <button className="px-3 py-1.5 text-sm text-slate-300 hover:text-white rounded transition-colors hover:bg-white/5">
+            <button className="px-3 py-1.5 text-sm text-slate-300 hover:text-white rounded transition-colors hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">
               Genre ▾
             </button>
             <div
-              className="absolute top-full left-0 mt-1 w-44 rounded-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+              className="absolute top-full left-0 mt-1 w-44 rounded-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50"
               style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
             >
               {GENRES.map((g) => (
                 <Link
                   key={g}
                   href={`/genre/${g}`}
-                  className="block px-4 py-2 text-sm capitalize text-slate-300 hover:text-white hover:bg-blue-600/20 transition-colors"
+                  className="block px-4 py-2 text-sm capitalize text-slate-300 hover:text-white hover:bg-blue-600/20 focus-visible:bg-blue-600/30 focus-visible:text-white focus:outline-none transition-colors"
                 >
                   {g.replace("-", " ")}
                 </Link>
@@ -158,16 +158,16 @@ export default function Navbar() {
 
           {/* Negara dropdown */}
           <div className="relative group">
-            <button className="px-3 py-1.5 text-sm text-slate-300 hover:text-white rounded transition-colors hover:bg-white/5">
+            <button className="px-3 py-1.5 text-sm text-slate-300 hover:text-white rounded transition-colors hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">
               Negara ▾
             </button>
             <div
-              className="absolute top-full left-0 mt-1 w-44 rounded-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+              className="absolute top-full left-0 mt-1 w-44 rounded-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50"
               style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
             >
               {NAV_COUNTRIES.map(({ label, slug, Flag }) => (
                 <Link key={slug} href={`/country/${slug}`}
-                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-blue-600/20 transition-colors">
+                  className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-blue-600/20 focus-visible:bg-blue-600/30 focus-visible:text-white focus:outline-none transition-colors">
                   <Flag style={{ width: 20, height: 13, borderRadius: 2 }} />
                   {label}
                 </Link>

@@ -69,7 +69,7 @@ export default function VideoPlayer({ servers, poster, title }: Props) {
           <button
             onClick={activatePip}
             title="Mini Player"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white transition-colors ml-auto"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white transition-colors ml-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
             style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
           >
             <PictureInPicture2 size={14} /> Mini Player
@@ -82,7 +82,7 @@ export default function VideoPlayer({ servers, poster, title }: Props) {
             <button
               key={i}
               onClick={() => setActive(i)}
-              className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
+              className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
               style={
                 active === i
                   ? { background: "#1d6fe8", color: "white" }

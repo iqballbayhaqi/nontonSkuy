@@ -60,9 +60,9 @@ export default function HistoryPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2 sm:gap-3 md:gap-4">
           {items.map((item) => (
             <div key={item.slug} className="group relative">
-              <Link href={`/movie/${item.slug}`} className="block w-full">
+              <Link href={`/movie/${item.slug}`} className="block w-full focus:outline-none">
                 <div
-                  className="relative rounded-lg overflow-hidden transition-transform duration-200 group-hover:scale-105"
+                  className="relative rounded-lg overflow-hidden transition-transform duration-200 group-hover:scale-105 group-focus-within:scale-105"
                   style={{ aspectRatio: "2/3", background: "#0d1b2a" }}
                 >
                   {item.poster ? (
@@ -72,25 +72,28 @@ export default function HistoryPage() {
                       <Play size={28} />
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" />
                   {item.rating && (
                     <span className="absolute top-2 left-2 text-xs font-semibold px-1.5 py-0.5 rounded"
                       style={{ background: "rgba(6,13,23,0.85)", color: "#fbbf24" }}>
                       ★ {item.rating}
                     </span>
                   )}
+                  {/* Focus ring */}
+                  <div className="absolute inset-0 rounded-lg pointer-events-none opacity-0 group-focus-within:opacity-100 transition-opacity"
+                    style={{ boxShadow: "inset 0 0 0 3px #3b82f6" }} />
                 </div>
-                <p className="mt-1.5 text-xs text-slate-300 line-clamp-2 group-hover:text-white transition-colors">
+                <p className="mt-1.5 text-xs text-slate-300 line-clamp-2 group-hover:text-white group-focus-within:text-white transition-colors">
                   {item.title}
                 </p>
                 <p className="text-xs text-slate-600 mt-0.5">{formatTime(item.watchedAt)}</p>
               </Link>
 
-              {/* Tombol hapus */}
+              {/* Tombol hapus — muncul saat hover atau group focus */}
               <button
                 onClick={() => remove(item.slug)}
                 title="Hapus dari riwayat"
-                className="absolute top-2 right-2 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-2 right-2 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity focus-visible:opacity-100"
                 style={{ background: "rgba(30,41,59,0.9)", border: "1px solid rgba(255,255,255,0.1)" }}
               >
                 <X size={12} className="text-slate-400" />

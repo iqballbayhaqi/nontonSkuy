@@ -67,7 +67,7 @@ export default function InfiniteMovieGrid({ initialMovies, initialHasNext, apiPa
         ))}
       </div>
 
-      <div ref={sentinelRef} className="flex items-center justify-center h-20 mt-4">
+      <div ref={sentinelRef} aria-hidden="true" tabIndex={-1} className="flex items-center justify-center h-20 mt-4">
         {loading && (
           <div className="flex items-center gap-3 text-slate-400 text-sm">
             <div
