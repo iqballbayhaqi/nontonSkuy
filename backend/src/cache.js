@@ -5,47 +5,52 @@
  * daripada error langsung ke user.
  */
 
-const store = new Map();
+const store   = new Map(); // { key → { data, ts } }
+const inflight = new Map(); // { key → Promise } — dedup request paralel
 
 const TTL = {
-  detail:   30 * 60 * 1000,  // 30 menit  — halaman film jarang berubah
-  list:     5  * 60 * 1000,  // 5 menit   — daftar film (latest, genre, dll)
-  search:   2  * 60 * 1000,  // 2 menit   — hasil pencarian
+  detail: 30 * 60 * 1000, // 30 menit — halaman film jarang berubah
+  list:    5 * 60 * 1000, // 5 menit  — daftar film (latest, genre, dll)
+  search:  2 * 60 * 1000, // 2 menit  — hasil pencarian
 };
 
 /**
- * Jalankan fetchFn, cache hasilnya.
- * Kalau cache masih fresh → langsung pakai.
- * Kalau source error dan ada cache lama → kembalikan stale data.
- * Kalau tidak ada cache sama sekali → lempar error ke caller.
+ * Jalankan fetchFn dengan caching + in-flight deduplication.
  *
- * @param {string} key   Cache key unik per endpoint + param
- * @param {number} ttl   Milliseconds sebelum dianggap stale
- * @param {Function} fetchFn  Async function yang melakukan scraping
+ * - Fresh cache hit       → return tanpa scrape
+ * - Key sedang di-fetch   → tunggu promise yang sama (tidak double-scrape)
+ * - Source error + ada stale → return stale data daripada error
+ * - Tidak ada cache sama sekali → lempar error ke caller
  */
 async function cached(key, ttl, fetchFn) {
   const entry = store.get(key);
-  const now = Date.now();
+  const now   = Date.now();
 
-  // Cache masih fresh — return langsung
-  if (entry && now - entry.ts < ttl) {
-    return entry.data;
-  }
+  // Cache masih fresh
+  if (entry && now - entry.ts < ttl) return entry.data;
 
-  try {
-    const data = await fetchFn();
-    store.set(key, { data, ts: now });
-    return data;
-  } catch (err) {
-    // Source website down — kembalikan data lama kalau ada
-    if (entry) {
-      const ageMin = Math.round((now - entry.ts) / 60000);
-      console.warn(`[cache] source error, serving stale data (${ageMin}m old) for: ${key}`);
-      return { ...entry.data, _stale: true, _staleAge: ageMin };
+  // Sedang di-fetch oleh request lain — ikut tunggu, tidak double scrape
+  if (inflight.has(key)) return inflight.get(key);
+
+  const promise = (async () => {
+    try {
+      const data = await fetchFn();
+      store.set(key, { data, ts: Date.now() });
+      return data;
+    } catch (err) {
+      if (entry) {
+        const ageMin = Math.round((now - entry.ts) / 60000);
+        console.warn(`[cache] source error, serving stale (${ageMin}m old): ${key}`);
+        return { ...entry.data, _stale: true, _staleAge: ageMin };
+      }
+      throw err;
+    } finally {
+      inflight.delete(key);
     }
-    // Tidak ada cache sama sekali — teruskan error
-    throw err;
-  }
+  })();
+
+  inflight.set(key, promise);
+  return promise;
 }
 
 /** Paksa hapus cache untuk key tertentu (opsional, untuk keperluan admin) */

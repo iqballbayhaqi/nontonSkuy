@@ -14,9 +14,39 @@ const http = axios.create({
   },
 });
 
+// Semaphore — batasi max 3 request ke source website secara bersamaan
+// agar tidak di-throttle/block oleh server sumber
+const MAX_CONCURRENT = 3;
+let activeCount = 0;
+const waitQueue = [];
+
+function acquireSemaphore() {
+  return new Promise((resolve) => {
+    if (activeCount < MAX_CONCURRENT) {
+      activeCount++;
+      resolve();
+    } else {
+      waitQueue.push(resolve);
+    }
+  });
+}
+
+function releaseSemaphore() {
+  activeCount--;
+  if (waitQueue.length > 0) {
+    activeCount++;
+    waitQueue.shift()();
+  }
+}
+
 async function load(path) {
-  const res = await http.get(path);
-  return cheerio.load(res.data);
+  await acquireSemaphore();
+  try {
+    const res = await http.get(path);
+    return cheerio.load(res.data);
+  } finally {
+    releaseSemaphore();
+  }
 }
 
 function parseMovieCards($, selector = "article") {
