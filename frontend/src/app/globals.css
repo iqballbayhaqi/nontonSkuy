@@ -58,3 +58,11 @@ body {
 .card-bottom-gradient {
   background: linear-gradient(to top, #060d17 0%, rgba(6,13,23,0.5) 50%, transparent 100%);
 }
+
+/* TV remote / D-pad focus — visible ring on buttons and links (not cards, handled inline) */
+button:focus-visible,
+a:not([data-movie-card]):focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 3px;
+  border-radius: 8px;
+}

@@ -29,6 +29,28 @@ export default function ScrollableRow({ children, gap = 12 }: Props) {
     return () => { el.removeEventListener("scroll", update); ro.disconnect(); };
   }, [update]);
 
+  // Auto-scroll to focused item (TV remote D-pad navigation)
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    function onFocusIn(e: FocusEvent) {
+      const target = e.target as HTMLElement;
+      if (!el || !el.contains(target)) return;
+      const card = target.closest<HTMLElement>("[data-movie-card]") ?? target;
+      const containerLeft = el.getBoundingClientRect().left;
+      const cardLeft = card.getBoundingClientRect().left;
+      const cardRight = card.getBoundingClientRect().right;
+      const containerRight = containerLeft + el.clientWidth;
+      if (cardRight > containerRight) {
+        el.scrollBy({ left: cardRight - containerRight + 16, behavior: "smooth" });
+      } else if (cardLeft < containerLeft) {
+        el.scrollBy({ left: cardLeft - containerLeft - 16, behavior: "smooth" });
+      }
+    }
+    el.addEventListener("focusin", onFocusIn);
+    return () => el.removeEventListener("focusin", onFocusIn);
+  }, []);
+
   function scroll(dir: "left" | "right") {
     const el = ref.current;
     if (!el) return;

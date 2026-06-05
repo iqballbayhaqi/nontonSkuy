@@ -15,11 +15,12 @@ export default function MovieCard({ movie, width }: Props) {
   return (
     <Link
       href={href}
-      className={`group block${width ? "" : " w-full"}`}
+      className={`group block focus:outline-none${width ? "" : " w-full"}`}
       style={width ? { width } : undefined}
+      data-movie-card
     >
       <div
-        className="relative overflow-hidden rounded-lg transition-transform duration-200 group-hover:scale-105 group-hover:z-10"
+        className="relative overflow-hidden rounded-lg transition-transform duration-200 group-hover:scale-105 group-hover:z-10 group-focus-visible:scale-105 group-focus-visible:z-10"
         style={{
           background: "#0d1b2a",
           boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
@@ -41,8 +42,8 @@ export default function MovieCard({ movie, width }: Props) {
           </div>
         )}
 
-        {/* Overlay on hover */}
-        <div className="card-bottom-gradient absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+        {/* Overlay on hover/focus */}
+        <div className="card-bottom-gradient absolute inset-0 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200" />
 
         {/* Rating badge */}
         {movie.rating && (
@@ -55,8 +56,8 @@ export default function MovieCard({ movie, width }: Props) {
           </div>
         )}
 
-        {/* Play button on hover */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        {/* Play button on hover/focus */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200">
           <div
             className="w-10 h-10 rounded-full flex items-center justify-center"
             style={{ background: "rgba(29,111,232,0.9)" }}
@@ -64,10 +65,14 @@ export default function MovieCard({ movie, width }: Props) {
             <Play size={18} fill="white" className="text-white ml-0.5" />
           </div>
         </div>
+
+        {/* Focus ring for TV remote */}
+        <div className="absolute inset-0 rounded-lg pointer-events-none opacity-0 group-focus-visible:opacity-100 transition-opacity duration-200"
+          style={{ boxShadow: "inset 0 0 0 3px #3b82f6" }} />
       </div>
 
       {/* Title */}
-      <p className="mt-2 text-xs text-slate-300 line-clamp-2 group-hover:text-white transition-colors">
+      <p className="mt-2 text-xs text-slate-300 line-clamp-2 group-hover:text-white group-focus-visible:text-white transition-colors">
         {movie.title}
       </p>
       {movie.meta && (

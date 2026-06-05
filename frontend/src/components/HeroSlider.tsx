@@ -129,14 +129,14 @@ export default function HeroSlider({ movies }: { movies: Movie[] }) {
           <div className="flex gap-3 flex-wrap">
             <Link
               href={slug ? `/movie/${slug}` : "#"}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-sm text-white transition-all hover:opacity-90"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-sm text-white transition-all hover:opacity-90 focus-visible:outline focus-visible:outline-3 focus-visible:outline-white"
               style={{ background: "#1d6fe8" }}
             >
               <Play size={16} fill="white" /> Tonton
             </Link>
             <Link
               href={slug ? `/movie/${slug}` : "#"}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-sm text-white transition-all hover:bg-white/20"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-sm text-white transition-all hover:bg-white/20 focus-visible:outline focus-visible:outline-3 focus-visible:outline-white"
               style={{ background: "rgba(255,255,255,0.12)" }}
             >
               <Info size={16} /> Detail
