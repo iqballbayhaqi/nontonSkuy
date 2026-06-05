@@ -20,12 +20,17 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
+  // Pakai cache: backend cache menangani dedup jika page & metadata fetch bersamaan
   const movie = await api.detail(slug).catch(() => null);
-  return { title: movie ? `${movie.title} – nontonSkuy` : "nontonSkuy" };
+  return {
+    title: movie ? `${movie.title} – nontonSkuy` : "nontonSkuy",
+    ...(movie?.poster && { openGraph: { images: [movie.poster] } }),
+  };
 }
 
 export default async function MoviePage({ params }: Props) {
   const { slug } = await params;
+  // Backend cache akan serve dari memory (hit) karena generateMetadata sudah fetch duluan
   const movie = await api.detail(slug);
 
   return (
@@ -134,7 +139,7 @@ export default async function MoviePage({ params }: Props) {
                   <Link
                     key={g}
                     href={`/genre/${g.toLowerCase().replace(/\s+/g, "-")}`}
-                    className="px-3 py-1 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                    className="px-3 py-1 rounded-lg text-xs font-medium transition-colors hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
                     style={{ background: "rgba(29,111,232,0.15)", color: "#60a5fa", border: "1px solid rgba(29,111,232,0.3)" }}
                   >
                     {g}
@@ -156,9 +161,18 @@ export default async function MoviePage({ params }: Props) {
                 <div>
                   <p className="text-slate-500 text-xs mb-1">Sutradara</p>
                   <div className="flex flex-wrap gap-1">
-                    {movie.directors.map((d) => (
-                      <span key={d.url} className="text-slate-200">{d.name}</span>
-                    ))}
+                    {movie.directors.map((d) => {
+                      const dirSlug = d.url.split("/director/")[1]?.replace(/\/$/, "");
+                      return (
+                        <Link
+                          key={d.url}
+                          href={dirSlug ? `/director/${dirSlug}` : d.url}
+                          className="text-slate-200 hover:text-blue-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400 rounded"
+                        >
+                          {d.name}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -228,7 +242,7 @@ export default async function MoviePage({ params }: Props) {
                   <Link
                     key={c.url}
                     href={castSlug ? `/cast/${castSlug}` : c.url}
-                    className="px-3 py-1.5 rounded-lg text-sm transition-colors hover:bg-blue-600/20 hover:text-blue-400"
+                    className="px-3 py-1.5 rounded-lg text-sm transition-colors hover:bg-blue-600/20 hover:text-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400 focus-visible:text-blue-400"
                     style={{ background: "#0d1b2a", color: "#94a3b8", border: "1px solid rgba(255,255,255,0.07)" }}
                   >
                     {c.name}
@@ -247,26 +261,18 @@ export default async function MoviePage({ params }: Props) {
               {movie.related.map((r) => {
                 const relSlug = r.link.split("/").filter(Boolean).pop() || "";
                 return (
-                  <Link key={r.link} href={`/movie/${relSlug}`} className="group block">
-                    <div
-                      className="relative rounded-lg overflow-hidden transition-transform duration-200 group-hover:scale-105"
-                      style={{ aspectRatio: "2/3", background: "#0d1b2a" }}
-                    >
-                      {r.poster && (
-                        <Image
-                          src={r.poster}
-                          alt={r.title}
-                          fill
-                          className="object-cover"
-                          unoptimized
-                        />
-                      )}
-                      <div className="card-bottom-gradient absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    <p className="mt-1.5 text-xs text-slate-400 line-clamp-2 group-hover:text-white transition-colors">
-                      {r.title}
-                    </p>
-                  </Link>
+                  <MovieCard
+                    key={r.link}
+                    movie={{
+                      title: r.title,
+                      slug: relSlug,
+                      link: r.link,
+                      poster: r.poster,
+                      rating: r.rating,
+                      meta: null,
+                      trailer: null,
+                    }}
+                  />
                 );
               })}
             </div>
