@@ -5,6 +5,7 @@ import MovieRow from "@/components/MovieRow";
 import MovieRowSkeleton from "@/components/MovieRowSkeleton";
 import ContinueWatchingRow from "@/components/ContinueWatchingRow";
 import QuickFilters from "@/components/QuickFilters";
+import TvDownloadBanner from "@/components/TvDownloadBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function HomePage() {
   return (
     <div>
       <HeroSlider movies={sliderMovies} />
+      <TvDownloadBanner />
       <div className="mt-6">
         <ContinueWatchingRow />
         <MovieRow title="Film Terbaru"  movies={latest.movies}   seeAllHref="/latest" />

@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Menu, X, Film, Bookmark, History, Clock } from "lucide-react";
+import { Search, Menu, X, Film, Bookmark, History, Clock, Tv, Download } from "lucide-react";
 import {
   getSearchHistory,
   addToSearchHistory,
@@ -187,6 +187,17 @@ export default function Navbar() {
             <History size={18} />
           </Link>
           <div className="w-px h-5 mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
+          <a
+            href="/nontonSkuy-tv.apk"
+            download="nontonSkuy-tv.apk"
+            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded transition-all hover:opacity-90"
+            style={{ background: "linear-gradient(135deg, #16a34a, #15803d)", color: "#fff" }}
+            title="Download App untuk Android TV / Google TV"
+          >
+            <Tv size={13} />
+            TV App
+          </a>
+          <div className="w-px h-5 mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
           <Link
             href={NAV_18.href}
             className="px-2.5 py-1 text-xs font-extrabold rounded transition-opacity hover:opacity-80"
@@ -314,6 +325,15 @@ export default function Navbar() {
           >
             {NAV_18.label}
           </Link>
+          <a
+            href="/nontonSkuy-tv.apk"
+            download="nontonSkuy-tv.apk"
+            onClick={() => setMenuOpen(false)}
+            className="px-3 py-2 text-sm font-bold rounded hover:opacity-80 transition-opacity flex items-center gap-2 w-fit"
+            style={{ background: "rgba(22,163,74,0.2)", color: "#4ade80", border: "1px solid rgba(22,163,74,0.4)" }}
+          >
+            <Tv size={15} /> Download untuk Android TV / Google TV
+          </a>
           <Link
             href="/donasi"
             onClick={() => setMenuOpen(false)}
