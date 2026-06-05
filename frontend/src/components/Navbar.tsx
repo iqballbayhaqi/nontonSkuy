@@ -134,8 +134,8 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center gap-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
+        {/* Logo — sembunyikan di mobile saat search terbuka */}
+        <Link href="/" className={`items-center gap-2 shrink-0 ${searchOpen ? "hidden md:flex" : "flex"}`}>
           <Film size={26} className="text-blue-400" />
           <span className="text-xl font-extrabold tracking-tight" style={{ color: "#3b82f6" }}>
             nonton<span className="text-white">Skuy</span>
@@ -195,7 +195,8 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex-1" />
+        {/* Spacer — sembunyikan di mobile saat search terbuka */}
+        <div className={`flex-1 ${searchOpen ? "hidden md:block" : ""}`} />
 
         {/* Desktop action buttons — kanan */}
         <div className="hidden md:flex items-center gap-1">
@@ -226,19 +227,20 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Search */}
-        <div ref={searchBoxRef} className="flex items-center gap-2 relative">
-          <form onSubmit={handleSearch} className="flex items-center gap-1">
-            {/* Input — selalu ada, animasi width */}
+        {/* Search — flex-1 di mobile saat terbuka agar tidak overflow */}
+        <div ref={searchBoxRef} className={`flex items-center gap-2 relative ${searchOpen ? "flex-1 md:flex-none" : ""}`}>
+          <form onSubmit={handleSearch} className={`flex items-center gap-1 ${searchOpen ? "w-full" : ""}`}>
+            {/* Input — animasi width; di mobile pakai flex-1, di desktop fixed 220px */}
             <input
               ref={inputRef}
               value={query}
               onChange={(e) => { setQuery(e.target.value); setShowHistory(true); }}
               onFocus={() => setShowHistory(true)}
               placeholder="Cari film..."
-              className="text-sm rounded-lg outline-none py-1.5 px-3 transition-all duration-300 ease-in-out"
+              className="text-sm rounded-lg outline-none py-1.5 transition-all duration-300 ease-in-out min-w-0"
               style={{
-                width: searchOpen ? 220 : 0,
+                flex: searchOpen ? 1 : undefined,
+                width: searchOpen ? undefined : 0,
                 paddingLeft: searchOpen ? 12 : 0,
                 paddingRight: searchOpen ? 12 : 0,
                 opacity: searchOpen ? 1 : 0,
@@ -270,7 +272,7 @@ export default function Navbar() {
           {/* Dropdown riwayat pencarian */}
           {showHistory && searchHistory.length > 0 && !query && searchOpen && (
             <div
-              className="absolute top-full right-0 mt-1 w-64 rounded-lg py-1 z-50"
+              className="absolute top-full right-0 mt-1 w-full md:w-64 rounded-lg py-1 z-50"
               style={{ background: "#0d1b2a", border: "1px solid rgba(29,111,232,0.3)" }}
             >
               <p className="px-3 py-1.5 text-xs text-slate-500 flex items-center gap-1.5">
@@ -297,9 +299,9 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile menu toggle — sembunyikan saat search terbuka */}
         <button
-          className="md:hidden p-2 text-slate-300 hover:text-white"
+          className={`md:hidden p-2 text-slate-300 hover:text-white ${searchOpen ? "hidden" : ""}`}
           onClick={toggleMenu}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
