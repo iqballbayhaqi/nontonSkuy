@@ -44,6 +44,7 @@ export default async function MoviePage({ params }: Props) {
             style={{ border: "none", opacity: 0.6 }}
             allow="autoplay; encrypted-media"
             allowFullScreen
+            sandbox="allow-scripts allow-same-origin allow-presentation allow-fullscreen"
           />
         ) : movie.poster ? (
           <Image

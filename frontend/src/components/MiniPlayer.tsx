@@ -97,6 +97,7 @@ export default function MiniPlayer() {
         allow="autoplay; fullscreen; encrypted-media"
         allowFullScreen
         style={{ border: "none" }}
+        sandbox="allow-scripts allow-same-origin allow-forms allow-fullscreen allow-presentation"
       />
     </div>
   );
