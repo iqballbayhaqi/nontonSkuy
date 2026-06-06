@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { X, GripHorizontal, Maximize2 } from "lucide-react";
 import { usePip } from "@/context/PipContext";
 import { useRouter } from "next/navigation";
+import HlsPlayer from "./HlsPlayer";
 
 export default function MiniPlayer() {
   const { pip, clearPip } = usePip();
@@ -90,14 +91,22 @@ export default function MiniPlayer() {
         </div>
       </div>
 
-      {/* Iframe */}
-      <iframe
-        src={pip.embedUrl}
-        className="w-full h-full"
-        allow="autoplay; fullscreen; encrypted-media"
-        allowFullScreen
-        style={{ border: "none" }}
-      />
+      {/* Player */}
+      {pip.streamUrl ? (
+        <HlsPlayer
+          src={pip.streamUrl}
+          poster={pip.poster}
+          style={{ paddingTop: "28px" }}
+        />
+      ) : (
+        <iframe
+          src={pip.embedUrl}
+          className="w-full h-full"
+          allow="autoplay; fullscreen; encrypted-media"
+          allowFullScreen
+          style={{ border: "none" }}
+        />
+      )}
     </div>
   );
 }

@@ -37,6 +37,12 @@ export interface Server {
   embedUrl: string | null;
 }
 
+export interface StreamResolved {
+  streamUrl: string | null;
+  poster: string | null;
+  title: string | null;
+}
+
 export interface CastMember {
   name: string;
   url: string;
@@ -100,6 +106,7 @@ export const api = {
   country: (country: string, page = 1) => get<MovieList & { country: string }>(`/api/movies/country/${country}?page=${page}`),
   year: (year: string, page = 1) => get<MovieList & { year: string }>(`/api/movies/year/${year}?page=${page}`),
   detail: (slug: string) => get<MovieDetail>(`/api/movies/${slug}`),
+  stream: (embedUrl: string) => get<StreamResolved>(`/api/stream?url=${encodeURIComponent(embedUrl)}`),
   cast: (slug: string, page = 1) => get<MovieList & { name: string }>(`/api/cast/${slug}?page=${page}`),
   director: (slug: string, page = 1) => get<MovieList & { name: string }>(`/api/director/${slug}?page=${page}`),
 };

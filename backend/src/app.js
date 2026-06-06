@@ -5,6 +5,7 @@ const cors = require("cors");
 const moviesRouter = require("./routes/scrape");
 const { scrapePerson } = require("./scraper-cached");
 const { stats, flush } = require("./cache");
+const { resolvePlayerp2pStream } = require("./stream-resolver");
 
 const app = express();
 
@@ -41,6 +42,16 @@ app.post("/cache/flush", (req, res) => {
 });
 
 app.use("/api/movies", moviesRouter);
+
+// Stream resolver — convert playerp2p embed URL to direct m3u8
+app.get("/api/stream", async (req, res, next) => {
+  try {
+    const { url } = req.query;
+    if (!url) return res.status(400).json({ success: false, message: "url query param is required" });
+    const data = await resolvePlayerp2pStream(url);
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+});
 
 // Cast & Director pages
 ["cast", "director"].forEach((type) => {

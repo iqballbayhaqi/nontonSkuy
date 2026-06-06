@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useCallback } from "react";
 
 interface PipState {
   embedUrl: string;
+  streamUrl?: string | null;
   title?: string;
   poster?: string | null;
 }
