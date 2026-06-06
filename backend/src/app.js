@@ -6,6 +6,7 @@ const moviesRouter = require("./routes/scrape");
 const { scrapePerson } = require("./scraper-cached");
 const { stats, flush } = require("./cache");
 const { resolvePlayerp2pStream } = require("./stream-resolver");
+const { handleProxy } = require("./stream-proxy");
 
 const app = express();
 
@@ -43,15 +44,26 @@ app.post("/cache/flush", (req, res) => {
 
 app.use("/api/movies", moviesRouter);
 
-// Stream resolver — convert playerp2p embed URL to direct m3u8
+// Stream resolver — convert playerp2p embed URL to proxied m3u8
 app.get("/api/stream", async (req, res, next) => {
   try {
     const { url } = req.query;
     if (!url) return res.status(400).json({ success: false, message: "url query param is required" });
-    const data = await resolvePlayerp2pStream(url);
-    res.json({ success: true, data });
+    const raw = await resolvePlayerp2pStream(url);
+    if (!raw.streamUrl) return res.json({ success: true, data: raw });
+
+    // Wrap the m3u8 URL through our proxy so browser tidak kena CORS/403
+    const proxyBase = `${req.protocol}://${req.get("host")}/api/stream/proxy`;
+    const embedHost = new URL(url).hostname;
+    const referer = `https://${embedHost}/`;
+    const proxiedStreamUrl = `${proxyBase}?src=${encodeURIComponent(raw.streamUrl)}&ref=${encodeURIComponent(referer)}`;
+
+    res.json({ success: true, data: { ...raw, streamUrl: proxiedStreamUrl } });
   } catch (err) { next(err); }
 });
+
+// Stream proxy — fetch dari source dengan Referer yang benar, serve ke browser
+app.get("/api/stream/proxy", (req, res) => handleProxy(req, res));
 
 // Cast & Director pages
 ["cast", "director"].forEach((type) => {
