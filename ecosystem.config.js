@@ -8,6 +8,7 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 4000,
         BASE_URL: "https://bridgestoabrighterfuture.org",
+        API_PUBLIC_URL: "https://api-movie.balee.web.id",
       },
     },
     {

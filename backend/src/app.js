@@ -10,6 +10,8 @@ const { handleProxy } = require("./stream-proxy");
 
 const app = express();
 
+// Trust reverse proxy (nginx) agar req.protocol = 'https' saat di-proxy
+app.set("trust proxy", 1);
 app.use(cors());
 app.use(express.json());
 
@@ -53,7 +55,11 @@ app.get("/api/stream", async (req, res, next) => {
     if (!raw.streamUrl) return res.json({ success: true, data: raw });
 
     // Wrap the m3u8 URL through our proxy so browser tidak kena CORS/403
-    const proxyBase = `${req.protocol}://${req.get("host")}/api/stream/proxy`;
+    // API_PUBLIC_URL dipakai sebagai fallback jika req.protocol masih http
+    const baseUrl = process.env.API_PUBLIC_URL
+      ? process.env.API_PUBLIC_URL.replace(/\/$/, "")
+      : `${req.protocol}://${req.get("host")}`;
+    const proxyBase = `${baseUrl}/api/stream/proxy`;
     const embedHost = new URL(url).hostname;
     const referer = `https://${embedHost}/`;
     const proxiedStreamUrl = `${proxyBase}?src=${encodeURIComponent(raw.streamUrl)}&ref=${encodeURIComponent(referer)}`;
