@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import { Tv, Download, X } from "lucide-react";
+import { useIsTV } from "@/hooks/useIsTV";
 
 export default function TvDownloadBanner() {
   const [dismissed, setDismissed] = useState(false);
+  const isTv = useIsTV();
 
-  if (dismissed) return null;
+  if (dismissed || isTv) return null;
 
   return (
     <div

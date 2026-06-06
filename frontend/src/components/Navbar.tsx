@@ -8,6 +8,7 @@ import {
   addToSearchHistory,
   removeFromSearchHistory,
 } from "@/lib/storage";
+import { useIsTV } from "@/hooks/useIsTV";
 import US from "country-flag-icons/react/3x2/US";
 import KR from "country-flag-icons/react/3x2/KR";
 import JP from "country-flag-icons/react/3x2/JP";
@@ -42,6 +43,7 @@ const GENRES = ["action", "adventure", "comedy", "crime", "drama", "fantasy", "h
 
 export default function Navbar() {
   const router = useRouter();
+  const isTv = useIsTV();
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuClosing, setMenuClosing] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -206,17 +208,21 @@ export default function Navbar() {
           <Link href="/history" className="p-2 text-slate-400 hover:text-white transition-colors rounded hover:bg-white/5" title="Riwayat">
             <History size={18} />
           </Link>
-          <div className="w-px h-5 mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
-          <a
-            href="/nontonSkuy-tv.apk"
-            download="nontonSkuy-tv.apk"
-            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded transition-all hover:opacity-90"
-            style={{ background: "linear-gradient(135deg, #16a34a, #15803d)", color: "#fff" }}
-            title="Download App untuk Android TV / Google TV"
-          >
-            <Tv size={13} />
-            TV App
-          </a>
+          {!isTv && (
+            <>
+              <div className="w-px h-5 mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
+              <a
+                href="/nontonSkuy-tv.apk"
+                download="nontonSkuy-tv.apk"
+                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded transition-all hover:opacity-90"
+                style={{ background: "linear-gradient(135deg, #16a34a, #15803d)", color: "#fff" }}
+                title="Download App untuk Android TV / Google TV"
+              >
+                <Tv size={13} />
+                TV App
+              </a>
+            </>
+          )}
           <div className="w-px h-5 mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
           <Link
             href={NAV_18.href}
@@ -354,20 +360,22 @@ export default function Navbar() {
 
           {/* ── Aksi Khusus ── */}
           <div className="px-3 py-3 flex flex-col gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            {/* Download TV App */}
-            <a
-              href="/nontonSkuy-tv.apk"
-              download="nontonSkuy-tv.apk"
-              onClick={closeMenu}
-              className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 active:opacity-75"
-              style={{ background: "linear-gradient(135deg, rgba(22,163,74,0.25), rgba(15,118,110,0.25))", color: "#4ade80", border: "1px solid rgba(22,163,74,0.4)" }}
-            >
-              <Tv size={18} className="shrink-0" />
-              <div>
-                <div className="leading-tight">Download Android TV App</div>
-                <div className="text-xs font-normal opacity-70 mt-0.5">Untuk Android TV &amp; Google TV</div>
-              </div>
-            </a>
+            {/* Download TV App — hidden on TV */}
+            {!isTv && (
+              <a
+                href="/nontonSkuy-tv.apk"
+                download="nontonSkuy-tv.apk"
+                onClick={closeMenu}
+                className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 active:opacity-75"
+                style={{ background: "linear-gradient(135deg, rgba(22,163,74,0.25), rgba(15,118,110,0.25))", color: "#4ade80", border: "1px solid rgba(22,163,74,0.4)" }}
+              >
+                <Tv size={18} className="shrink-0" />
+                <div>
+                  <div className="leading-tight">Download Android TV App</div>
+                  <div className="text-xs font-normal opacity-70 mt-0.5">Untuk Android TV &amp; Google TV</div>
+                </div>
+              </a>
+            )}
 
             {/* 18+ dan Donasi berdampingan */}
             <div className="flex gap-2">
