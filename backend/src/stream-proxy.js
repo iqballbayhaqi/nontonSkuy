@@ -30,19 +30,19 @@ function fetchFromSource(targetUrl, referer) {
 function rewriteM3u8(content, baseUrl, referer, proxyBase) {
   const base = new URL(baseUrl);
 
-  return content.replace(/^([^#\s][^\n]*)$/gm, (line) => {
+  return content.replace(/^(.+)$/gm, (line) => {
     const trimmed = line.trim();
     if (!trimmed) return line;
 
-    // URI= attribute di tags seperti #EXT-X-KEY, #EXT-X-MAP
-    const uriAttr = trimmed.replace(
-      /URI="([^"]+)"/g,
-      (_, uri) => `URI="${toProxyUrl(uri, base, referer, proxyBase)}"`
-    );
-    if (uriAttr !== trimmed) return uriAttr;
+    if (trimmed.startsWith("#")) {
+      // Rewrite URI= attributes inside tags (#EXT-X-MAP, #EXT-X-KEY, etc.)
+      return trimmed.replace(
+        /URI="([^"]+)"/g,
+        (_, uri) => `URI="${toProxyUrl(uri, base, referer, proxyBase)}"`
+      );
+    }
 
-    // Bare URL lines (segment .ts, quality .m3u8, dll)
-    if (trimmed.startsWith("#")) return line;
+    // Bare URL lines (segment .ts/.m4s, quality .m3u8, dll)
     return toProxyUrl(trimmed, base, referer, proxyBase);
   });
 }
@@ -57,7 +57,10 @@ async function handleProxy(req, res) {
   if (!src) return res.status(400).send("src required");
 
   const referer = ref || "https://ewa.playerp2p.live/";
-  const proxyBase = `${req.protocol}://${req.get("host")}/api/stream/proxy`;
+  const baseUrl = process.env.API_PUBLIC_URL
+    ? process.env.API_PUBLIC_URL.replace(/\/$/, "")
+    : `${req.protocol}://${req.get("host")}`;
+  const proxyBase = `${baseUrl}/api/stream/proxy`;
 
   let sourceRes;
   try {
