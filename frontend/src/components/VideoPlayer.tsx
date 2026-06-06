@@ -54,7 +54,6 @@ export default function VideoPlayer({ servers, poster, title }: Props) {
               allowFullScreen
               allow="autoplay; fullscreen"
               frameBorder="0"
-              sandbox="allow-scripts allow-same-origin allow-forms allow-fullscreen allow-presentation"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-slate-500">
