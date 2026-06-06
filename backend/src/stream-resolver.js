@@ -4,29 +4,37 @@ const https = require("https");
 const KEY = Buffer.from("kiemtienmua911ca");
 const IV  = Buffer.from("1234567890oiuytr");
 
-function extractPlayerp2pId(embedUrl) {
+const P2P_DOMAINS = ["playerp2p", "p2pplay"];
+
+function isP2pHost(hostname) {
+  return P2P_DOMAINS.some((d) => hostname.includes(d));
+}
+
+function extractP2pInfo(embedUrl) {
   try {
     const url = new URL(embedUrl);
-    if (!url.hostname.includes("playerp2p")) return null;
-    if (url.hash && url.hash.length > 1) return url.hash.slice(1);
-    const parts = url.pathname.split("/").filter(Boolean);
-    return parts.length > 0 ? parts[parts.length - 1] : null;
+    if (!isP2pHost(url.hostname)) return null;
+    const id =
+      url.hash && url.hash.length > 1
+        ? url.hash.slice(1)
+        : url.pathname.split("/").filter(Boolean).pop() || null;
+    return id ? { id, hostname: url.hostname } : null;
   } catch {
     return null;
   }
 }
 
-function fetchEncrypted(videoId) {
+function fetchEncrypted(hostname, videoId) {
   return new Promise((resolve, reject) => {
     https
       .get(
         {
-          hostname: "ewa.playerp2p.live",
+          hostname,
           path: `/api/v1/video?id=${videoId}`,
           headers: {
             "User-Agent":
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            Referer: `https://ewa.playerp2p.live/#${videoId}`,
+            Referer: `https://${hostname}/#${videoId}`,
           },
         },
         (res) => {
@@ -49,16 +57,16 @@ function decryptResponse(hexData) {
 }
 
 async function resolvePlayerp2pStream(embedUrl) {
-  const videoId = extractPlayerp2pId(embedUrl);
-  if (!videoId) throw new Error("Not a playerp2p URL");
+  const info = extractP2pInfo(embedUrl);
+  if (!info) throw new Error("Not a supported p2p player URL");
 
-  const hexData = await fetchEncrypted(videoId);
+  const hexData = await fetchEncrypted(info.hostname, info.id);
   const data = decryptResponse(hexData);
 
   const poster = data.poster
     ? data.poster.startsWith("http")
       ? data.poster
-      : `https://ewa.playerp2p.live${data.poster}`
+      : `https://${info.hostname}${data.poster}`
     : null;
 
   return {
@@ -68,4 +76,4 @@ async function resolvePlayerp2pStream(embedUrl) {
   };
 }
 
-module.exports = { resolvePlayerp2pStream, extractPlayerp2pId };
+module.exports = { resolvePlayerp2pStream, isP2pHost };

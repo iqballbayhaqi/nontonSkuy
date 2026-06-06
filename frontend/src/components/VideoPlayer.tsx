@@ -12,9 +12,10 @@ interface Props {
   title?: string;
 }
 
-function isPlayerp2p(url: string | null): boolean {
+const P2P_DOMAINS = ["playerp2p", "p2pplay"];
+function isP2p(url: string | null): boolean {
   if (!url) return false;
-  try { return new URL(url).hostname.includes("playerp2p"); } catch { return false; }
+  try { return P2P_DOMAINS.some((d) => new URL(url).hostname.includes(d)); } catch { return false; }
 }
 
 export default function VideoPlayer({ servers, poster, title }: Props) {
@@ -27,7 +28,7 @@ export default function VideoPlayer({ servers, poster, title }: Props) {
   const resolveCache = useRef<Record<string, StreamResolved>>({});
 
   useEffect(() => {
-    if (!isPlayerp2p(current?.embedUrl)) {
+    if (!isP2p(current?.embedUrl)) {
       setResolved(null);
       setError(false);
       return;
@@ -99,11 +100,11 @@ export default function VideoPlayer({ servers, poster, title }: Props) {
             </div>
           )}
 
-          {!loading && !error && isPlayerp2p(current?.embedUrl) && streamSrc && (
+          {!loading && !error && isP2p(current?.embedUrl) && streamSrc && (
             <HlsPlayer src={streamSrc} poster={playerPoster} />
           )}
 
-          {!loading && !error && !isPlayerp2p(current?.embedUrl) && current?.embedUrl && (
+          {!loading && !error && !isP2p(current?.embedUrl) && current?.embedUrl && (
             <iframe
               key={current.embedUrl}
               src={current.embedUrl}
